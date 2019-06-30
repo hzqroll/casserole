@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="simpleAdvice" class="com.roll.casserole.common.SimpleAdvice"/>
+
+    <bean id="nameMatcher" class="org.springframework.aop.support.NameMatchMethodPointcut">
+        <property name="mappedName" value="say"/>
+    </bean>
+
+    <bean id="demoAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="advice" ref="simpleAdvice"/>
+        <property name="pointcut" ref="nameMatcher"/>
+    </bean>
+
+    <!--<bean id="proxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="dogTalk"/>
+        <property name="interceptorNames">
+            <list>
+                <value>demoAdvisor</value>
+            </list>
+        </property>
+    </bean>-->
+
+    <bean id="talk" class="com.roll.casserole.common.DogTalk"/>
+
+    <bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator">
+        <property name="proxyTargetClass" value="true"></property>
+    </bean>
+
+    <bean id="aspectTest" class="com.roll.casserole.aop.aspect.AspectTest"/>
+
+    <aop:config>
+        <aop:advisor id="simpleAdvice" advice-ref="simpleAdvice" pointcut-ref="nameMatcher"/>
+    </aop:config>
+</beans>
