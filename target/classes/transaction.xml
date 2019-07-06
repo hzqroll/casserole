@@ -29,14 +29,14 @@
         </property>
     </bean>
 
-    <bean id="accountServiceImplTarget" class="com.roll.demos.transaction.dao.impl.AccountServiceImpl">
+    <bean id="accountServiceImplTarget" class="com.roll.casserole.transaction.dao.impl.AccountServiceImpl">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
     <!--1 -->
     <bean id="accountService" class="org.springframework.aop.framework.ProxyFactoryBean">
         <property name="target" ref="accountServiceImplTarget"/>
-        <property name="proxyInterfaces" value="com.roll.demos.transaction.dao.AccountService"/>
+        <property name="proxyInterfaces" value="com.roll.casserole.transaction.dao.AccountService"/>
         <property name="interceptorNames">
             <list>
                 <value>transactionInterceptor</value>
@@ -46,7 +46,7 @@
 
     <!--2 -->
     <bean id="accountService2" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-        <property name="proxyInterfaces" value="com.roll.demos.transaction.dao.AccountService"/>
+        <property name="proxyInterfaces" value="com.roll.casserole.transaction.dao.AccountService"/>
         <property name="transactionManager" ref="transaction"/>
         <property name="transactionAttributes">
             <props>
@@ -76,7 +76,7 @@
         </tx:attributes>
     </tx:advice>
     <aop:config>
-        <aop:pointcut id="insert" expression="execution(* com.roll.demos.transaction.dao.AccountService.*(..))"/>
+        <aop:pointcut id="insert" expression="execution(* com.roll.casserole.transaction.dao.AccountService.*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="insert"/>
     </aop:config>
 

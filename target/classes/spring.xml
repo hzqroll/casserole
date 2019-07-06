@@ -9,11 +9,11 @@
      http://www.springframework.org/schema/context/spring-context-4.1.xsd
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
 
-    <context:component-scan base-package="com.roll.demos.common"/>
+    <context:component-scan base-package="com.roll.casserole.common"/>
 
-    <bean id="talk" class="com.roll.demos.common.DogTalk"/>
+    <bean id="talk" class="com.roll.casserole.common.DogTalk"/>
 
-    <bean id="beforeTalk" class="com.roll.demos.aop.Advice.BeforeTalk"/>
+    <bean id="beforeTalk" class="com.roll.casserole.aop.Advice.BeforeTalk"/>
 
     <bean id="nameMatchAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
         <property name="mappedName" value="say*"/>
@@ -21,7 +21,7 @@
     </bean>
 
     <bean id="beforeTalkAopTest" class="org.springframework.aop.framework.ProxyFactoryBean">
-        <property name="proxyInterfaces" value="com.roll.demos.common.Talk"/>
+        <property name="proxyInterfaces" value="com.roll.casserole.common.Talk"/>
         <property name="target" ref="talk"/>
         <property name="interceptorNames">
             <list>
@@ -30,14 +30,14 @@
         </property>
     </bean>
 
-    <bean id="additionalImp" class="com.roll.demos.aop.Advice.impl.AdditionalImp"/>
+    <bean id="additionalImp" class="com.roll.casserole.aop.Advice.impl.AdditionalImp"/>
 
     <bean id="additionalAdvisor" class="org.springframework.aop.support.DefaultIntroductionAdvisor">
         <constructor-arg ref="additionalImp"/>
-        <constructor-arg value="com.roll.demos.aop.Advice.IntroductionTest"/>
+        <constructor-arg value="com.roll.casserole.aop.Advice.IntroductionTest"/>
     </bean>
     <bean id="proxyFactoryBeanIntroduction" class="org.springframework.aop.framework.ProxyFactoryBean">
-        <property name="proxyInterfaces" value="com.roll.demos.common.Talk"/>
+        <property name="proxyInterfaces" value="com.roll.casserole.common.Talk"/>
         <property name="target" ref="dogTalk"/>
         <property name="interceptorNames">
             <list>

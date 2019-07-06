@@ -8,7 +8,7 @@ import com.netflix.hystrix.HystrixCommandKey;
  * @author haozq
  * Date: 2018/8/15 下午5:28
  */
-public class Hystrixcasserole extends HystrixCommand {
+public class HystrixDemos extends HystrixCommand {
 	/**
 	 * Construct a {@link HystrixCommand} with defined {@link Setter} that allows injecting property and strategy overrides and other optional arguments.
 	 * <p>
@@ -21,7 +21,7 @@ public class Hystrixcasserole extends HystrixCommand {
 	 *
 	 * @param setter Fluent interface for constructor arguments
 	 */
-	protected Hystrixcasserole(Setter setter) {
+	protected HystrixDemos(Setter setter) {
 		super(setter);
 	}
 

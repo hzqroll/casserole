@@ -27,13 +27,13 @@ public class NettyServer {
                         ch.pipeline().addLast(new StringDecoder());
                         ch.pipeline().addLast(new SimpleChannelInboundHandler<String>() {
                             @Override
-                            protected void messageReceived(ChannelHandlerContext ctx, String msg) throws Exception {
+                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
                                 System.out.println(msg);
+
                             }
 
                             @Override
-                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-                                System.out.println(msg);
+                            protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
 
                             }
                         });

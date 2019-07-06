@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
      http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <bean id="simpleAdvice" class="com.roll.demos.common.SimpleAdvice"/>
+    <bean id="simpleAdvice" class="com.roll.casserole.common.SimpleAdvice"/>
 
     <bean id="nameMatcher" class="org.springframework.aop.support.NameMatchMethodPointcut">
         <property name="mappedName" value="say"/>
@@ -24,13 +24,13 @@
         </property>
     </bean>-->
 
-    <bean id="talk" class="com.roll.demos.common.DogTalk"/>
+    <bean id="talk" class="com.roll.casserole.common.DogTalk"/>
 
     <bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator">
         <property name="proxyTargetClass" value="true"></property>
     </bean>
 
-    <bean id="aspectTest" class="com.roll.demos.aop.aspect.AspectTest"/>
+    <bean id="aspectTest" class="com.roll.casserole.aop.aspect.AspectTest"/>
 
     <aop:config>
         <aop:advisor id="simpleAdvice" advice-ref="simpleAdvice" pointcut-ref="nameMatcher"/>

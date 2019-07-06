@@ -1,6 +1,6 @@
 package com.roll.casserole.dubbo.client;
 
-import com.roll.casserole.dubbo.casseroleervice;
+import com.roll.casserole.dubbo.CasseroleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +16,11 @@ import javax.ws.rs.Path;
 public class DemoClient {
 
     @Autowired
-    private casseroleervice casseroleervice;
+    private CasseroleService casseroleService;
 
     @GET
     @Path("/get-print")
     public String print(String name) {
-        return casseroleervice.getGreet(name);
+        return casseroleService.getGreet(name);
     }
 }

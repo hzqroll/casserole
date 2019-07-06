@@ -15,7 +15,7 @@ import java.util.Date;
 @Service
 public class FirstServerHandler extends SimpleChannelInboundHandler {
     @Override
-    protected void messageReceived(ChannelHandlerContext ctx, Object msg) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf byteBuf = (ByteBuf) msg;
         System.out.println(new Date() + ": 123服务端读取数据" + byteBuf.toString(Charset.forName("utf-8")));
     }

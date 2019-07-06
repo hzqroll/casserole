@@ -9,10 +9,10 @@ import java.util.Arrays;
  * @author zongqiang.hao
  * created on 2018/10/21 上午11:39.
  */
-public class ByteBufcasserole {
+public class ByteBufDemos {
 
     public static void main(String args[]) {
-        ByteBufcasserole byteBufcasserole = new ByteBufcasserole();
+        ByteBufDemos byteBufcasserole = new ByteBufDemos();
         //byteBufcasserole.heapBuffer();
         byteBufcasserole.sliceBuffer();
     }
