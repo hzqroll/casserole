@@ -1,4 +1,4 @@
-package com.roll.demos.jvm.invoke;
+package com.roll.casserole.jvm.invoke;
 
 import java.lang.invoke.*;
 
@@ -12,13 +12,13 @@ public class Circuit {
     }
 
     public static void main(String[] args) {
-        startRace(new Horse());
+        startRace(new com.roll.demos.jvm.invoke.Horse());
     }
 
     public static CallSite bootstrap(MethodHandles.Lookup l, String name, MethodType callSiteType) {
         MethodHandle mh = null;
         try {
-            mh = l.findVirtual(Horse.class, name, MethodType.methodType(void.class));
+            mh = l.findVirtual(com.roll.demos.jvm.invoke.Horse.class, name, MethodType.methodType(void.class));
         } catch (NoSuchMethodException | IllegalAccessException e) {
             e.printStackTrace();
         }
