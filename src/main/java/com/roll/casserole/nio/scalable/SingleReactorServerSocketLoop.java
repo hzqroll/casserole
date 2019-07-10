@@ -7,7 +7,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.nio.channels.spi.SelectorProvider;
 import java.util.Set;
 
 /**
@@ -15,22 +14,28 @@ import java.util.Set;
  * created on 2019-07-09 20:08.
  */
 public class SingleReactorServerSocketLoop implements Runnable {
-    final Selector selector;
+    private final Selector selector;
 
-    final ServerSocketChannel serverSocketChannel;
+    private final ServerSocketChannel serverSocketChannel;
 
     public SingleReactorServerSocketLoop(int port) throws IOException {
+        // 打开一个 selector， 准备接受 channel 的注册
         selector = Selector.open();
         //SelectorProvider selectorProvider = SelectorProvider.provider();
         //selector = selectorProvider.openSelector();
 
+        // 打开一个 channel，准备绑定地址和端口
         serverSocketChannel = ServerSocketChannel.open();
         //serverSocketChannel = selectorProvider.openServerSocketChannel();
 
+        // 绑定本地接口
         serverSocketChannel.socket().bind(new InetSocketAddress(port));
+        // 设置阻塞状态为非阻塞
         serverSocketChannel.configureBlocking(false);
 
+        // 注册 channel 到 selector 上面，并且设置对 acceptor 事件感兴趣
         SelectionKey selectionKey = serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+        selectionKey.attach(new Accpetor());
     }
 
     // dispatch
@@ -96,9 +101,34 @@ public class SingleReactorServerSocketLoop implements Runnable {
             selector.wakeup();
         }
 
+        boolean inputIsComplete() {
+            return true;
+        }
+
+        boolean outputIsComplete() {
+            return true;
+        }
+
+        void process() {
+        }
+
         @Override
         public void run() {
+            try {
+                if (state == READING) {
+                    send();
+                } else if (state == SENDING) {
+                    send();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
+        void send() {
+        }
+
+        void read() {
         }
     }
 
