@@ -3,6 +3,8 @@ package com.roll.casserole.nio.scalable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 
 /**
  * @author zongqiang.hao
@@ -10,6 +12,11 @@ import java.net.Socket;
  */
 public class BaseClient {
     public static void main(String[] args) throws IOException {
+        channel();
+    }
+
+
+    public static void socket() throws IOException {
         Socket socket = new Socket();
         socket.connect(new InetSocketAddress(9004));
 
@@ -20,5 +27,17 @@ public class BaseClient {
         send[3] = 4;
 
         socket.getOutputStream().write(send);
+    }
+
+
+    public static void channel() throws IOException {
+        SocketChannel socket = SocketChannel.open();
+        socket.connect(new InetSocketAddress(9004));
+
+        ByteBuffer writeBuffer = ByteBuffer.allocate(10);
+        writeBuffer.put((byte) 1);
+        writeBuffer.put((byte) 2);
+        writeBuffer.flip();
+        socket.write(writeBuffer);
     }
 }

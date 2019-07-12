@@ -1,5 +1,7 @@
 package com.roll.casserole.nio.scalable;
 
+import io.netty.util.CharsetUtil;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -7,6 +9,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -35,7 +38,7 @@ public class SingleReactorServerSocketLoop implements Runnable {
 
         // 注册 channel 到 selector 上面，并且设置对 acceptor 事件感兴趣
         SelectionKey selectionKey = serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-        selectionKey.attach(new Accpetor());
+        selectionKey.attach(new Acceptor());
     }
 
     // dispatch
@@ -49,7 +52,7 @@ public class SingleReactorServerSocketLoop implements Runnable {
                 Set<SelectionKey> selected = selector.selectedKeys();
 
                 for (SelectionKey selectionKey : selected) {
-
+                    dispatch(selectionKey);
                 }
                 selected.clear();
             } catch (IOException e) {
@@ -68,7 +71,7 @@ public class SingleReactorServerSocketLoop implements Runnable {
     }
 
     // acceptor, SelectionKey，绑定 channel，分发 channel 中的任务
-    class Accpetor implements Runnable {
+    class Acceptor implements Runnable {
         @Override
         public void run() {
             try {
@@ -132,4 +135,34 @@ public class SingleReactorServerSocketLoop implements Runnable {
         }
     }
 
+    public static void main(String[] args) throws IOException {
+        ServerSocketChannel channel = ServerSocketChannel.open();
+        channel.socket().bind(new InetSocketAddress(9004));
+        channel.configureBlocking(false);
+        Selector selector = Selector.open();
+
+        channel.register(selector, SelectionKey.OP_ACCEPT);
+
+        while (true) {
+            int count = selector.select();
+            if (count > 0) {
+                Set<SelectionKey> selectionKeys = selector.selectedKeys();
+                for (SelectionKey selectionKey : selectionKeys) {
+                    if (selectionKey.isAcceptable()) {
+                        SocketChannel socketChannel = channel.accept();
+                        socketChannel.configureBlocking(false);
+                        socketChannel.register(selector, SelectionKey.OP_READ);
+                    } else if (selectionKey.isReadable()) {
+                        SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
+                        ByteBuffer readBuffer = ByteBuffer.allocate(100);
+                        socketChannel.read(readBuffer);
+                        readBuffer.flip();
+                        System.out.println("received: " + readBuffer.get(1));
+                    }
+                    selectionKeys.remove(selectionKey);
+                }
+            }
+        }
+
+    }
 }
