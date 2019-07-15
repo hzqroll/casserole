@@ -1,7 +1,5 @@
 package com.roll.casserole.nio.scalable;
 
-import io.netty.util.CharsetUtil;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -9,7 +7,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -148,6 +145,7 @@ public class SingleReactorServerSocketLoop implements Runnable {
         channel.configureBlocking(false);
         Selector selector = Selector.open();
 
+        // 注册 channel 到 selector
         channel.register(selector, SelectionKey.OP_ACCEPT);
 
         while (true) {
@@ -158,6 +156,7 @@ public class SingleReactorServerSocketLoop implements Runnable {
                     if (selectionKey.isAcceptable()) {
                         SocketChannel socketChannel = channel.accept();
                         socketChannel.configureBlocking(false);
+                        // 把事件再注册到 selector 中，等待感兴趣事件产生
                         socketChannel.register(selector, SelectionKey.OP_READ);
                     } else if (selectionKey.isReadable()) {
                         SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
@@ -170,6 +169,5 @@ public class SingleReactorServerSocketLoop implements Runnable {
                 }
             }
         }
-
     }
 }
