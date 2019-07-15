@@ -33,7 +33,9 @@ public class NettyNioServer {
 					.childHandler(new ChannelInitializer<SocketChannel>() {//制定ChannelInitializer对于每个已接收的连接都调用它
 						@Override
 						protected void initChannel(SocketChannel ch) throws Exception {
-							ch.pipeline().addLast(new ChannelInboundHandlerAdapter() {//团变化图个ChannelInboundHandlerAdapter拦截和处理时间
+							ch.pipeline().addLast(new ChannelInboundHandlerAdapter() {
+
+								//团变化图个ChannelInboundHandlerAdapter拦截和处理时间
 								@Override
 								public void channelActive(ChannelHandlerContext ctx) throws Exception {
 									//将消息写到客户端，并添加ChannelFutureListener以便消息已被写完就关闭连接

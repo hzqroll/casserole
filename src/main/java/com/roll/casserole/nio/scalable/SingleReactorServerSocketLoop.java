@@ -36,7 +36,7 @@ public class SingleReactorServerSocketLoop implements Runnable {
         // 设置阻塞状态为非阻塞
         serverSocketChannel.configureBlocking(false);
 
-        // 注册 channel 到 selector 上面，并且设置对 acceptor 事件感兴趣
+        // 注册 channel 到 selector 上面，并且设置对 acceptor 事件感兴趣， 返回的selectionKey 标识 serverChannel
         SelectionKey selectionKey = serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
         selectionKey.attach(new Acceptor());
     }
@@ -52,8 +52,10 @@ public class SingleReactorServerSocketLoop implements Runnable {
                 Set<SelectionKey> selected = selector.selectedKeys();
 
                 for (SelectionKey selectionKey : selected) {
+                    // 分发去处理每一个 selectionKey 里面的 IO 事件
                     dispatch(selectionKey);
                 }
+                // 分发玩之后一定要清除掉，不然下一次还是上一次的 IO 事件
                 selected.clear();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -119,7 +121,7 @@ public class SingleReactorServerSocketLoop implements Runnable {
         public void run() {
             try {
                 if (state == READING) {
-                    send();
+                    read();
                 } else if (state == SENDING) {
                     send();
                 }
@@ -128,10 +130,15 @@ public class SingleReactorServerSocketLoop implements Runnable {
             }
         }
 
-        void send() {
+        void send() throws IOException {
+            socketChannel.read(input);
+            state = SENDING;
+            selectionKey.interestOps(SelectionKey.OP_WRITE);
         }
 
-        void read() {
+        void read() throws IOException {
+            socketChannel.write(output);
+            selectionKey.cancel();
         }
     }
 
