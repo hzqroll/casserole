@@ -8,6 +8,9 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Set;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author zongqiang.hao
@@ -138,6 +141,9 @@ public class SingleReactorServerSocketLoop implements Runnable {
             selectionKey.cancel();
         }
     }
+
+
+    // handler with Thread pool, handler的操作在线程池里面进行
 
     public static void main(String[] args) throws IOException {
         ServerSocketChannel channel = ServerSocketChannel.open();

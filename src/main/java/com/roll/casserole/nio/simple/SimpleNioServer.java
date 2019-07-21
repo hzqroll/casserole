@@ -18,7 +18,7 @@ public class SimpleNioServer {
     public static void main(String[] args) throws IOException {
         // 打开一个 channel
         ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-        serverSocketChannel.bind(new InetSocketAddress(9005));
+        serverSocketChannel.socket().bind(new InetSocketAddress(9005));
         serverSocketChannel.configureBlocking(false);
 
         // 打开一个 selector
