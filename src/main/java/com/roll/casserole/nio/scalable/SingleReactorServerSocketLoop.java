@@ -152,7 +152,7 @@ public class SingleReactorServerSocketLoop implements Runnable {
         Selector selector = Selector.open();
 
         // 注册 channel 到 selector
-        channel.register(selector, SelectionKey.OP_ACCEPT);
+        SelectionKey selectionKey1 = channel.register(selector, SelectionKey.OP_ACCEPT);
 
         while (true) {
             int count = selector.select();
@@ -169,7 +169,7 @@ public class SingleReactorServerSocketLoop implements Runnable {
                         ByteBuffer readBuffer = ByteBuffer.allocate(100);
                         socketChannel.read(readBuffer);
                         readBuffer.flip();
-                        System.out.println("received: " + readBuffer.get(1));
+                        //System.out.println("received: " + readBuffer.get(0));
                     }
                     selectionKeys.remove(selectionKey);
                 }
