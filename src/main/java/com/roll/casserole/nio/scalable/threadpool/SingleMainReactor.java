@@ -31,14 +31,13 @@ public class SingleMainReactor implements Runnable {
 
         SelectionKey selectionKey = serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
         // 在这个selectionKey中附加acceptor事件，其实这个只会在有链接链接上来的时候发生。如果有多个链接发生，这个构造方法会被
-        selectionKey.attach(new EasyAcceptor(selectionKey, selector, serverSocketChannel));
+        selectionKey.attach(new EasyAcceptor(selector, serverSocketChannel));
     }
 
     @Override
     public void run() {
         while (!Thread.interrupted()) {
             try {
-                Thread.sleep(20000);
                 // 阻塞方法
                 selector.select();
                 // 获取selector 里面的selected keys，刚开始之后accept事件，是绑定了channel的selectionKey
@@ -48,7 +47,7 @@ public class SingleMainReactor implements Runnable {
                     new Dispatcher(selectionKey);
                 }
                 selectionKeys.clear();
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

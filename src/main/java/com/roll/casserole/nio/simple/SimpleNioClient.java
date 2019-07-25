@@ -17,7 +17,8 @@ public class SimpleNioClient {
         ByteBuffer byteBuffer = ByteBuffer.allocate(10);
         byteBuffer.put(1, (byte) 1);
         byteBuffer.put(2, (byte) 2);
-
-        socketChannel.write(byteBuffer);
+        for (int i = 1; i < 10; i++) {
+            socketChannel.write(byteBuffer);
+        }
     }
 }

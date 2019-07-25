@@ -9,7 +9,7 @@ import java.nio.channels.SelectionKey;
 public class Dispatcher {
 
     public Dispatcher(SelectionKey selectionKey) {
-        // handler 塞进去的是一个任务
+        // handler 塞进去的是一个任务，如果是accept事件，那么这里的runnable，是new Acceptor(), 如果是后面handler里面注册的，runnable是new EasyBlockHandler()。
         Runnable runnable = (Runnable) selectionKey.attachment();
         if (runnable != null) {
             runnable.run();

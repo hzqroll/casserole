@@ -14,14 +14,15 @@ public class EasyBlockHandler implements Runnable {
     private SocketChannel socketChannel;
     private SelectionKey selectionKey;
 
-    public EasyBlockHandler(SelectionKey selectionKey, Selector selector, SocketChannel socketChannel) throws IOException {
-        this.selectionKey = selectionKey;
+    public EasyBlockHandler(Selector selector, SocketChannel socketChannel) throws IOException {
         this.socketChannel = socketChannel;
         this.socketChannel.configureBlocking(false);
 
-        this.socketChannel.register(selector, 0);
-        this.selectionKey.attach(this);
-        this.selectionKey.interestOps(SelectionKey.OP_READ);
+        selectionKey = this.socketChannel.register(selector, 0);
+        selectionKey.attach(this);
+        if (!selectionKey.isReadable()) {
+            selectionKey.interestOps(SelectionKey.OP_READ);
+        }
         selector.wakeup();
     }
 
