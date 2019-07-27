@@ -2,7 +2,6 @@ package com.roll.casserole.java8;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 /**
  * @author roll
@@ -16,5 +15,7 @@ public class Test {
         map.put("3", "4");
 
         map.forEach((s, s2) -> System.out.println(s + " " + s2));
+
+        //map.forEach(System.out::println(s,s2));
     }
 }
