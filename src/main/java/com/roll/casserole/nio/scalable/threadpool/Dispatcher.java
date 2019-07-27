@@ -3,6 +3,8 @@ package com.roll.casserole.nio.scalable.threadpool;
 import java.nio.channels.SelectionKey;
 
 /**
+ * 允许所有的任务
+ *
  * @author roll
  * created on 2019-07-21 21:43
  */

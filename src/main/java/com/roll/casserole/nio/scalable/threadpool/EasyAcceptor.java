@@ -26,10 +26,10 @@ public class EasyAcceptor implements Runnable {
     @Override
     public void run() {
         try {
+            // 接收一个于此channel socket建立的连接
             SocketChannel socketChannel = serverSocketChannel.accept();
-
+            // 去处理这个连接
             new EasyBlockHandler(selector, socketChannel);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
