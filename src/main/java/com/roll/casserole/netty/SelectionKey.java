@@ -181,10 +181,11 @@ public abstract class SelectionKey {
     public abstract int interestOps();
 
     /**
+     * 是指当前key感兴趣的value
      * Sets this key's interest set to the given value.
-     *
-     * <p> This method may be invoked at any time.  Whether or not it blocks,
-     * and for how long, is implementation-dependent.  </p>
+     * 这个方法可以在任何时候被调用，不管是否是在阻塞中，这个取决于实现方法
+     * * <p> This method may be invoked at any time.  Whether or not it blocks,
+    * and for how long, is implementation-dependent.  </p>
      *
      * @param ops The new interest set
      * @return This selection key
@@ -196,12 +197,14 @@ public abstract class SelectionKey {
     public abstract java.nio.channels.SelectionKey interestOps(int ops);
 
     /**
+     * 检索当前的key的准备操作状态
      * Retrieves this key's ready-operation set.
-     *
+     * 她能保证，返回的key的集合是当前绑定的channel能够进行的操作
      * <p> It is guaranteed that the returned set will only contain operation
      * bits that are valid for this key's channel.  </p>
      *
      * @return This key's ready-operation set
+     * 如果这个key被取消了，这个方法会抛出异常
      * @throws CancelledKeyException If this key has been cancelled
      */
     public abstract int readyOps();
@@ -211,7 +214,9 @@ public abstract class SelectionKey {
 
     /**
      * Operation-set bit for read operations.
-     *
+     * 假设在selection操作开始之前，这个selection的key集合包含了OP_READ。
+     * 如果这个selector检测到相应的channel已经准备好去读操作了，或者已经触到了流的尾部，或者远程的读操作，或者发生了错误的等待
+     * 它就会增加OP_READ到这个key的读准备操作集合中并且天际到他的selected-key集合中
      * <p> Suppose that a selection key's interest set contains
      * <tt>OP_READ</tt> at the start of a <a
      * href="Selector.html#selop">selection operation</a>.  If the selector
@@ -224,7 +229,7 @@ public abstract class SelectionKey {
 
     /**
      * Operation-set bit for write operations.
-     *
+     * 假设selection key
      * <p> Suppose that a selection key's interest set contains
      * <tt>OP_WRITE</tt> at the start of a <a
      * href="Selector.html#selop">selection operation</a>.  If the selector
