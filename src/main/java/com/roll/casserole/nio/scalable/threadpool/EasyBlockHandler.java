@@ -37,7 +37,8 @@ public class EasyBlockHandler implements Runnable {
                 buffer.flip();
                 // 打印数据
                 System.out.println("received: " + Arrays.toString(buffer.array()));
-                socketChannel.close();
+                // 读完之后一定要取消，不然下次还是回读到数据
+                selectionKey.cancel();
             } catch (IOException e) {
                 e.printStackTrace();
             }

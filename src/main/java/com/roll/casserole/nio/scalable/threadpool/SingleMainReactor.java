@@ -41,6 +41,7 @@ public class SingleMainReactor implements Runnable {
                 // 阻塞方法
                 selector.select();
                 // 获取selector 里面的selected keys，刚开始之后accept事件，是绑定了channel的selectionKey
+                // 下次再循环，selectionKey是在handler里面绑定的IO事件
                 Set<SelectionKey> selectionKeys = selector.selectedKeys();
                 // 分发selectionKey去处理具体io事件
                 for (SelectionKey selectionKey : selectionKeys) {
