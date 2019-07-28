@@ -229,7 +229,7 @@ public abstract class SelectionKey {
 
     /**
      * Operation-set bit for write operations.
-     * 假设selection key
+     * 准备写操作，错误的等待
      * <p> Suppose that a selection key's interest set contains
      * <tt>OP_WRITE</tt> at the start of a <a
      * href="Selector.html#selop">selection operation</a>.  If the selector
@@ -243,6 +243,7 @@ public abstract class SelectionKey {
     /**
      * Operation-set bit for socket-connect operations.
      *
+     * 准备好去完成他的链接序列
      * <p> Suppose that a selection key's interest set contains
      * <tt>OP_CONNECT</tt> at the start of a <a
      * href="Selector.html#selop">selection operation</a>.  If the selector
@@ -256,6 +257,7 @@ public abstract class SelectionKey {
     /**
      * Operation-set bit for socket-accept operations.
      *
+     * 相应的channel准备好去接受另一个连接，或者等待错误
      * <p> Suppose that a selection key's interest set contains
      * <tt>OP_ACCEPT</tt> at the start of a <a
      * href="Selector.html#selop">selection operation</a>.  If the selector
@@ -267,6 +269,7 @@ public abstract class SelectionKey {
     public static final int OP_ACCEPT = 1 << 4;
 
     /**
+     * 测试这个channel是否准备好读状态
      * Tests whether this key's channel is ready for reading.
      *
      * <p> An invocation of this method of the form <tt>k.isReadable()</tt>
@@ -275,7 +278,7 @@ public abstract class SelectionKey {
      * <blockquote><pre>{@code
      * k.readyOps() & OP_READ != 0
      * }</pre></blockquote>
-     *
+     * 如果这个channel不支持read操作，这个方法会返回false
      * <p> If this key's channel does not support read operations then this
      * method always returns <tt>false</tt>.  </p>
      *
@@ -288,6 +291,7 @@ public abstract class SelectionKey {
     }
 
     /**
+     * 是否可写
      * Tests whether this key's channel is ready for writing.
      *
      * <p> An invocation of this method of the form <tt>k.isWritable()</tt>
@@ -357,14 +361,18 @@ public abstract class SelectionKey {
 
     private volatile Object attachment = null;
 
+    /**
+     * AtomicReferenceFieldUpdater，可以原子的更新属性
+     */
     private static final AtomicReferenceFieldUpdater<java.nio.channels.SelectionKey, Object>
             attachmentUpdater = AtomicReferenceFieldUpdater.newUpdater(
             java.nio.channels.SelectionKey.class, Object.class, "attachment"
     );
 
     /**
+     * 附属给定的对象在这个key上面
      * Attaches the given object to this key.
-     *
+     * 附属的对象可以通过attachment获取，这个方法会替换当前的对象。
      * <p> An attached object may later be retrieved via the {@link #attachment()
      * attachment} method.  Only one object may be attached at a time; invoking
      * this method causes any previous attachment to be discarded.  The current
@@ -379,6 +387,7 @@ public abstract class SelectionKey {
     }
 
     /**
+     * 返回当前附属对象
      * Retrieves the current attachment.
      *
      * @return The object currently attached to this key,
