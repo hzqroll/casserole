@@ -3,6 +3,7 @@ package com.roll.casserole.java8;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author roll
@@ -30,6 +31,9 @@ public class Test3 {
         lists.stream().map(item -> item.toUpperCase()).forEach(item -> System.out.println(item));
 
         list2.stream().map(String::toUpperCase).forEach(System.out::println);
+
+        Function<String, String> function = String::toUpperCase;
+        System.out.println(function.getClass().getInterfaces()[0] );
     }
 }
 
