@@ -21,7 +21,8 @@ public class EasyBlockHandler implements Runnable {
         selectionKey = this.socketChannel.register(selector, 0);
         selectionKey.attach(this);
         if (!selectionKey.isReadable()) {
-            selectionKey.interestOps(SelectionKey.OP_READ);
+            selectionKey.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+            System.out.println(selectionKey.interestOps());
         }
         selector.wakeup();
     }
@@ -43,5 +44,6 @@ public class EasyBlockHandler implements Runnable {
                 e.printStackTrace();
             }
         }
+        selectionKey.cancel();
     }
 }

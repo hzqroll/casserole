@@ -26,12 +26,15 @@ public class Test2 {
             }
         });
 
-        test2.myTest(() -> System.out.println("lambda test2"));
+        test2.myTest(() -> {System.out.println("lambda test2");});
 
         MyInterface myInterface = () -> {
             System.out.println("traditional test2");
         };
         // class com.roll.casserole.java8.Test2$$Lambda$2/485815673
         System.out.println(myInterface.getClass());
+
     }
+
+
 }
