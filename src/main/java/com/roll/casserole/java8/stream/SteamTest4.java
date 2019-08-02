@@ -16,9 +16,11 @@ public class SteamTest4 {
         //String[] arrays = stringStream.toArray(String[]::new);
         //Arrays.asList(arrays).forEach(System.out::println );
 
-        List<String> stringList = stringStream.collect(Collectors.toList());
-        stringList = stringStream.collect(() -> new ArrayList(), (theList, item) -> theList.add(item), (theList1, theList2) -> theList1.addAll(theList2));
-        stringList = stringStream.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+        //List<String> stringList = stringStream.collect(Collectors.toList());
+        //stringList = stringStream.collect(() -> new ArrayList(), (theList, item) -> theList.add(item), (theList1, theList2) -> theList1.addAll(theList2));
+        //stringList = stringStream.collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
 
+        String str = stringStream.collect(Collectors.joining());
+        System.out.println(str);
     }
 }
