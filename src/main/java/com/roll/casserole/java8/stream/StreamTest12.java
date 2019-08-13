@@ -2,7 +2,7 @@ package com.roll.casserole.java8.stream;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author roll
@@ -15,7 +15,17 @@ public class StreamTest12 {
         List<String> list2 = Arrays.asList("zhangsan", "lisi", "wangwu", "zhaoliu");
 
 
-        List<String> list3 = list1.stream().flatMap(item -> list2.stream().map(item2 -> item + " " + item2)).collect(Collectors.toList());
-        list3.forEach(System.out::println);
+        //List<String> list3 = list1.stream().flatMap(item -> list2.stream().map(item2 -> item + " " + item2)).collect(Collectors.toList());
+        //list3.forEach(System.out::println);
+
+        try (Stream<String> stringStream = list1.stream()) {
+            stringStream.
+                    onClose(() -> {
+                        System.out.println("onclose 1");
+                        throw new RuntimeException();
+                    }).
+                    onClose(() -> System.out.println("onclose2")).
+                    forEach(System.out::println);
+        }
     }
 }
