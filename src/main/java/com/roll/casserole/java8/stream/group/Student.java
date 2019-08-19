@@ -40,4 +40,13 @@ public class Student {
         this.score = score;
         this.age = age;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", score=" + score +
+                ", age=" + age +
+                '}';
+    }
 }

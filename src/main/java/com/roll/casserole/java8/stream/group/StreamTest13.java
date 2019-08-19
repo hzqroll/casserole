@@ -29,9 +29,10 @@ public class StreamTest13 {
 //        Map<String, Double> map = students.stream().collect(Collectors.groupingBy(Student::getName, Collectors.averagingDouble(Student::getScore)));
 
         //{false=[com.roll.casserole.java8.stream.group.Student@64a294a6, com.roll.casserole.java8.stream.group.Student@7e0b37bc, com.roll.casserole.java8.stream.group.Student@3b95a09c], true=[com.roll.casserole.java8.stream.group.Student@6ae40994]}
-        Map<Boolean, List<Student>> map = students.stream().collect(Collectors.partitioningBy(student -> student.getScore() > 90));
+        //Map<Boolean, List<Student>> map = students.stream().collect(Collectors.partitioningBy(student -> student.getScore() > 90));
 
-        System.out.println(map);
+        //System.out.println(map);
+        students.stream().forEach(System.out::println);
 
     }
 }
