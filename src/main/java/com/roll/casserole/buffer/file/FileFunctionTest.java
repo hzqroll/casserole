@@ -16,6 +16,8 @@ public class FileFunctionTest {
         String destPath = "/Users/haozongqiang/Downloads/temp/dest.txt";
         fileFunctionTest.mappedFileTest(sourcePath, destPath);
         fileFunctionTest.fileInputStreamTest(sourcePath, destPath);
+        for (; ; ) {
+        }
     }
 
     private void mappedFileTest(String sourcePath, String destFile) {

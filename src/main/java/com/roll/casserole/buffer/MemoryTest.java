@@ -3,6 +3,7 @@ package com.roll.casserole.buffer;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
+import java.nio.ByteBuffer;
 
 /**
  * @author roll
@@ -26,7 +27,5 @@ public class MemoryTest {
             byte a = unsafe.getByte(offset);
             System.out.println(a);
         }
-
-        System.out.println();
     }
 }
