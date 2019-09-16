@@ -21,7 +21,8 @@ public class ByteBufDemos {
      * 堆内存模式
      */
     public void heapBuffer() {
-        ByteBuf heapBuf = ByteBufAllocator.DEFAULT.heapBuffer(99);
+        //ByteBuf heapBuf = ByteBufAllocator.DEFAULT.heapBuffer(99);
+        ByteBuf heapBuf = new PooledByteBufAllocator().heapBuffer();
         heapBuf.capacity(99);
         for (int i = 0; i < 100; i++) {
             heapBuf.writeByte((byte) i);
