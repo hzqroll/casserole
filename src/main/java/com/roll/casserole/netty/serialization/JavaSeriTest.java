@@ -24,7 +24,7 @@ public class JavaSeriTest {
      *
      * @param person
      */
-    private void seriablizable(Person person) {
+    void seriablizable(Person person) {
         try {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(path));
             objectOutputStream.writeObject(person);
@@ -41,7 +41,7 @@ public class JavaSeriTest {
      *
      * @param data
      */
-    private void deriablizable(byte[] data) {
+    void deriablizable(byte[] data) {
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(path));
             Person person = (Person) objectInputStream.readObject();
