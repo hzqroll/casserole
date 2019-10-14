@@ -1,4 +1,4 @@
-package com.roll.demos.jvm.invoke;
+package com.roll.casserole.jvm.invoke;
 
 /**
  * @author zongqiang.hao
