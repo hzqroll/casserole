@@ -26,14 +26,23 @@ package com.roll.casserole.jvm.classloader;
 public class MyTest2 {
     public static void main(String[] args) {
         // hello world
-        System.out.println(MyParent2.srr);
+        System.out.println(MyChild2.i);
     }
 }
 
 class MyParent2 {
+
     public static final String srr = "hello world";
+
+    public static final String[] a = new String[10];
+
+    public static final int i = 100;
 
     static {
         System.out.println("MyParent2 static block");
     }
+}
+
+class MyChild2 extends MyParent2 {
+    public static final int i1 = 100;
 }
