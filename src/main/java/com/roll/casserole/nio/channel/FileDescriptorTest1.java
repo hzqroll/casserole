@@ -10,6 +10,7 @@ import java.io.IOException;
  */
 public class FileDescriptorTest1 {
     public static void main(String[] args) throws IOException {
+
         FileOutputStream fileInputStream = new FileOutputStream(FileDescriptor.out);
         fileInputStream.write("hello world".getBytes());
         fileInputStream.close();

@@ -15,8 +15,8 @@ public class FileChannelTest1 {
 
     public static void main(String[] args) throws IOException {
         long time = System.currentTimeMillis();
-        for (int i = 0; i < 1000; i++) {
-            basic();
+        for (int i = 0; i < 2; i++) {
+            inputStream();
         }
         System.out.println("耗时：" + (System.currentTimeMillis() - time));
 
@@ -54,6 +54,11 @@ public class FileChannelTest1 {
 
         File sfile = new File(si);
         FileInputStream sfileInputStream = new FileInputStream(sfile);
+
+        FileInputStream sfileInputStream1 = new FileInputStream(sfile);
+
+        System.out.println(sfileInputStream.getFD());
+        System.out.println(sfileInputStream1.getFD());
 
         FileChannel sFileChannel = sfileInputStream.getChannel();
         sFileChannel.read(byteBuffer);
