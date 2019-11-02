@@ -1,8 +1,5 @@
 package com.roll.casserole.nio.scalable.reactorcase.handlepool;
 
-import com.roll.casserole.nio.scalable.reactorcase.onethread.Acceptor;
-import com.roll.casserole.nio.scalable.reactorcase.onethread.EventHandler;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SelectionKey;
@@ -26,7 +23,7 @@ public class HandleThreadPoolMain {
 
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
-        serverSocketChannel.bind(new InetSocketAddress(9021));
+        serverSocketChannel.bind(new InetSocketAddress(9022));
 
         while (true) {
             int count = selector.select();
@@ -37,14 +34,13 @@ public class HandleThreadPoolMain {
                     final SelectionKey selectionKey = selectionKeyIterator.next();
                     selectionKeyIterator.remove();
                     if (selectionKey.isAcceptable()) {
-                        Acceptor acceptor = new Acceptor(selectionKey, selector);
-                        acceptor.handleConnection();
+                        AcceptorV1.getInstance().handleAcceptor(selectionKey, selector);
                     } else {
-                        EventHandler eventHandler = new EventHandler(selectionKey);
-                        eventHandler.handle();
-                        selectionKey.cancel();
+                        EventHandleV1 eventHandler = new EventHandleV1();
+                        eventHandler.handle(selector, selectionKey);
                     }
                 }
+                selectionKeys.clear();
             }
         }
     }

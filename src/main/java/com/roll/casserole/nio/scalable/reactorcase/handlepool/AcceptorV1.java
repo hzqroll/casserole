@@ -17,7 +17,7 @@ public class AcceptorV1 {
 
     private static final AcceptorV1 instance = new AcceptorV1();
 
-    private static AcceptorV1 getInstance() {
+    public static AcceptorV1 getInstance() {
         return instance;
     }
 
@@ -25,7 +25,16 @@ public class AcceptorV1 {
     }
 
     public void handleAcceptor(SelectionKey selectionKey, Selector selector) {
-        service.submit(new AcceptorConnection(selectionKey, selector));
+        //service.submit(new AcceptorConnection(selectionKey, selector));
+        ServerSocketChannel serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
+        try {
+            SocketChannel socketChannel = serverSocketChannel.accept();
+            socketChannel.configureBlocking(false);
+            System.out.println("客户端已连接：" + socketChannel.toString());
+            socketChannel.register(selector, SelectionKey.OP_READ);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     class AcceptorConnection implements Runnable {
