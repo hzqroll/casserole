@@ -10,6 +10,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
+ * 数据事件处理器
+ * 处理read事件和write事件
+ *
  * @author roll
  * created on 2019-10-29 20:39
  */

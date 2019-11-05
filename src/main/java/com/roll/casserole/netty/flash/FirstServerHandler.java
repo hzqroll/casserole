@@ -32,5 +32,4 @@ public class FirstServerHandler extends SimpleChannelInboundHandler {
         ByteBuf byteBuf = (ByteBuf) msg;
         System.out.println(new Date() + ": 服务端读取数据" + byteBuf.toString(Charset.forName("utf-8")));
     }
-
 }
