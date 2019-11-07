@@ -1,5 +1,8 @@
 package com.roll.casserole.nio.scalable.reactorcase;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,17 +15,17 @@ import java.nio.channels.spi.SelectorProvider;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author roll
  * created on 2019-10-28 14:17
  */
+@Service
+@Scope("prototype")
 public class CaseClient {
     private static Charset charset = Charset.forName("utf-8");
 
-    public static void main(String[] args) throws IOException {
+    public String client(String message) throws IOException {
         SocketChannel socketChannel = SelectorProvider.provider().openSocketChannel();
 
         socketChannel.configureBlocking(false);
@@ -39,30 +42,12 @@ public class CaseClient {
                     if (client.isConnectionPending()) {
                         client.finishConnect();
 
-                        String connectMessage = LocalDateTime.now() + " 连接成功";
+                        String connectMessage = LocalDateTime.now() + " 连接成功, " + message;
                         ByteBuffer writeBuffer = ByteBuffer.allocate(1024);
                         writeBuffer.put(connectMessage.getBytes());
 
                         writeBuffer.flip();
                         client.write(writeBuffer);
-
-                        ExecutorService executorService = Executors.newSingleThreadExecutor();
-                        executorService.execute(() -> {
-                            while (true) {
-                                try {
-                                    ByteBuffer writeBuffer1 = ByteBuffer.allocate(1024);
-                                    //writeBuffer.clear();
-                                    InputStreamReader input = new InputStreamReader(System.in);
-                                    BufferedReader br = new BufferedReader(input);
-                                    String sendMessage = br.readLine();
-                                    writeBuffer1.put(sendMessage.getBytes(charset));
-                                    writeBuffer1.flip();
-                                    client.write(writeBuffer1);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
 
                         client.configureBlocking(false);
                         client.register(selector, SelectionKey.OP_READ);
@@ -72,8 +57,7 @@ public class CaseClient {
                     int count = socketChannel.read(receiveMessage);
                     if (count > 0) {
                         receiveMessage.flip();
-                        String receivedMessage = charset.decode(receiveMessage.asReadOnlyBuffer()).toString();
-                        System.out.println("收到消息： " + receivedMessage);
+                        return charset.decode(receiveMessage.asReadOnlyBuffer()).toString();
                     }
                     receiveMessage.clear();
                 }
