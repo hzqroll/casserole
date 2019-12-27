@@ -7,6 +7,7 @@ import java.util.*;
  * created on 2019-11-21 20:44
  */
 public class MyTest23 {
+    private final String a = "1";
     public static void main(String[] args) {
         System.out.println(System.getProperty("sun.boot.class.path"));
 
