@@ -20,8 +20,10 @@ public class MyServer {
         EventLoopGroup workGroup = new NioEventLoopGroup();
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
-            serverBootstrap.group(bossGroup, workGroup).channel(NioServerSocketChannel.class).
+            serverBootstrap.group(bossGroup, workGroup).
+                    channel(NioServerSocketChannel.class).
                     handler(new LoggingHandler(LogLevel.DEBUG)).
+                    handler(null).
                     childHandler(new MyInitializerChannel());
             ChannelFuture channelFuture = serverBootstrap.bind(8899).sync();
             channelFuture.channel().closeFuture().sync();

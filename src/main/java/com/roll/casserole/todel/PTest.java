@@ -7,7 +7,7 @@ import java.util.Arrays;
  * created on 2019-11-26 14:10
  */
 public class PTest {
-    static String a = "newnew,cbhb,hhnsh,jzbank,zgcbank,hmccb,yqjqnxs,taccb,bankofdl,tjns,uccb,whlhbank,gsyh,sdlm,qlbchina,809,jxrt,cebbank,bobcfc,cyxfjr,zzbank,baixin,szsccb,ccbz,ksdao,cmbchina,shbankloan,bhzcf,njcb,jnbank,njcbzx,cmbchinalsxd,wzyh,hbbankxfjr,dongguanbank,gzcb,drcbank,cscbemd,jinmeixin,58jinrong,hkbea,ccpingan,pinganhq,hzlhyh,jxfl,fmyh,gybank,ncssyyh,cqcbankxyk,yznsh,huzhou,nbcb,czcbank,qzyh,sfcapital,crbank,xib,gzccbsz,qzccbank,xwxysd,baoshengbank,kshbank,gdrcu,fjnsh,goldendata,zxxj,jnyh,wrcb,jcyhzb,meituan,ygcx,liangxin,bcm";
+    static String a = "zzbank,ccbz,cmbchina,bhzcf,wzyh,dongguanbank,cscbemd,58jinrong,ncssyyh,qzyh,jnbank,bobcfc,abcvc,newnew";
 
     public static void main(String[] args) {
         String[] b = a.split(",");
