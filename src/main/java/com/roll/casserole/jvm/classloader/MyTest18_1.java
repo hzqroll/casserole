@@ -15,5 +15,6 @@ public class MyTest18_1 {
 
         System.out.println("class loader: " + clazz.getClassLoader());
 
+        System.out.println("context class loader "+ Thread.currentThread().getContextClassLoader());
     }
 }
