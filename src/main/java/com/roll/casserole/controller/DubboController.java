@@ -1,8 +1,11 @@
 package com.roll.casserole.controller;
 
+import com.roll.casserole.common.User;
 import com.roll.casserole.dubbo.client.DemoClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,5 +26,11 @@ public class DubboController {
     public String getPrint(String name, @Context HttpServletRequest request) {
         System.out.print(request.getHeaderNames());
         return demoClient.print(name);
+    }
+
+    @RequestMapping(value = "/postTest", method = RequestMethod.POST)
+    public String postTest(@RequestBody User user) {
+        System.out.println(user.toString());
+        return user.toString();
     }
 }
