@@ -1,12 +1,20 @@
 package com.roll.casserole.common.tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * AVL树🌲结点定义
  *
  * @author roll
  * created on 2020/4/2 11:32 上午
  */
-public class AVLTree<T extends Comparable<T>> {
+public class AVLTree<T extends Comparable<T>> implements Tree<T> {
+
+    /**
+     * 根节点
+     */
+    public TreeNode<T> root;
 
     /**
      * 在结点X的左孩子结点的左子树中插入元素
@@ -15,9 +23,9 @@ public class AVLTree<T extends Comparable<T>> {
      * @param x 失衡点
      * @return w平衡点
      */
-    public AVLNode<T> llRoute(AVLNode<T> x) {
+    public TreeNode<T> llRoute(TreeNode<T> x) {
         // 拿到x结点的左节点l
-        AVLNode<T> w = x.leftNode;
+        TreeNode<T> w = x.leftNode;
         // l的右结点变为a的左节点
         x.leftNode = w.rightNode;
         // x的左节点开始移动，x变为他的右节点
@@ -31,8 +39,8 @@ public class AVLTree<T extends Comparable<T>> {
      * @param x 失衡点
      * @return w平衡点
      */
-    public AVLNode<T> rrRoute(AVLNode<T> x) {
-        AVLNode<T> w = x.rightNode;
+    public TreeNode<T> rrRoute(TreeNode<T> x) {
+        TreeNode<T> w = x.rightNode;
         x.rightNode = w.leftNode;
         w.leftNode = x;
         return w;
@@ -44,7 +52,7 @@ public class AVLTree<T extends Comparable<T>> {
      * @param x 失衡点
      * @return 平衡点
      */
-    public AVLNode<T> lrRoute(AVLNode<T> x) {
+    public TreeNode<T> lrRoute(TreeNode<T> x) {
         x.leftNode = rrRoute(x.leftNode);
         return llRoute(x);
     }
@@ -55,7 +63,7 @@ public class AVLTree<T extends Comparable<T>> {
      * @param x 失衡点
      * @return w平衡点
      */
-    public AVLNode<T> rlRoute(AVLNode<T> x) {
+    public TreeNode<T> rlRoute(TreeNode<T> x) {
         x.rightNode = llRoute(x.rightNode);
         return rrRoute(x);
     }
@@ -67,9 +75,9 @@ public class AVLTree<T extends Comparable<T>> {
      * @param p    当前结点（从根结点开始寻找）
      * @return 新的当前结点
      */
-    public AVLNode<T> insert(T data, AVLNode<T> p) {
+    public TreeNode<T> insert(T data, TreeNode<T> p) {
         if (p == null) {
-            p = new AVLNode<T>(data);
+            p = new TreeNode<T>(data);
         } else if (data.compareTo(p.data) < 0) {// 是否小于p的data
             // 交给左子树来插入
             p.leftNode = insert(data, p.leftNode);
@@ -106,7 +114,7 @@ public class AVLTree<T extends Comparable<T>> {
      * @param p    当前结点（从根结点开始寻找）
      * @return 新的当前结点
      */
-    public AVLNode<T> remove(T data, AVLNode<T> p) {
+    public TreeNode<T> remove(T data, TreeNode<T> p) {
         if (p == null) {
             return null;
         }
@@ -150,7 +158,7 @@ public class AVLTree<T extends Comparable<T>> {
      * @param p 当前节点
      * @return
      */
-    private AVLNode<T> findMin(AVLNode<T> p) {
+    private TreeNode<T> findMin(TreeNode<T> p) {
         if (p == null)//结束条件
             return null;
         else if (p.leftNode == null)//如果没有左结点,那么t就是最小的
@@ -162,7 +170,60 @@ public class AVLTree<T extends Comparable<T>> {
      * @param p 当前节点
      * @return 结点高度
      */
-    public int height(AVLNode<T> p) {
+    public int height(TreeNode<T> p) {
         return p == null ? -1 : p.height;
+    }
+
+    @Override
+    public void insert(T data) {
+        insert(data, root);
+    }
+
+    @Override
+    public void remove(T data) {
+        remove(data, root);
+    }
+
+    @Override
+    public void preOrderTraverse() {
+        if (root != null) {
+            preOrderTraverse(root);
+        }
+    }
+
+    @Override
+    public void postOrderTraverse() {
+        if (root != null) {
+            postOrderTraverse(root);
+        }
+    }
+
+    @Override
+    public void middleOrderTraverse() {
+        if (root != null) {
+            middleOrderTraverse(root);
+        }
+    }
+
+    @Override
+    public void levelOrderTraverse() {
+        List<TreeNode<T>> nodeList = new ArrayList<>();
+        nodeList.add(root);
+        levelOrderTraverse(nodeList);
+    }
+
+    @Override
+    public void depthOrderTraverse() {
+
+    }
+
+    @Override
+    public T findMin() {
+        return null;
+    }
+
+    @Override
+    public T findMax() {
+        return null;
     }
 }

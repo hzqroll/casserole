@@ -1,21 +1,21 @@
 package com.roll.casserole.common.tree;
 
 /**
- * 平衡二叉树结点
+ * 树结点
  *
  * @author roll
  * created on 2020/4/3 11:09 上午
  */
-public class AVLNode<T extends Comparable> {
+public class TreeNode<T extends Comparable<T>> {
     /**
      * 左节点
      */
-    public AVLNode<T> leftNode;
+    public TreeNode<T> leftNode;
 
     /**
      * 右结点
      */
-    public AVLNode<T> rightNode;
+    public TreeNode<T> rightNode;
 
     /**
      * 当前结点保存的数据
@@ -29,15 +29,15 @@ public class AVLNode<T extends Comparable> {
      */
     public int height;
 
-    public AVLNode(T data) {
+    public TreeNode(T data) {
         this(null, null, data);
     }
 
-    public AVLNode(AVLNode<T> leftNode, AVLNode<T> rightTree, T data) {
+    public TreeNode(TreeNode<T> leftNode, TreeNode<T> rightTree, T data) {
         this(null, null, data, 0);
     }
 
-    public AVLNode(AVLNode<T> leftNode, AVLNode<T> rightNode, T data, int height) {
+    public TreeNode(TreeNode<T> leftNode, TreeNode<T> rightNode, T data, int height) {
         this.leftNode = leftNode;
         this.rightNode = rightNode;
         this.data = data;
