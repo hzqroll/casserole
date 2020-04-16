@@ -1,8 +1,5 @@
 package com.roll.casserole.leecode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 编写一个函数来查找字符串数组中的最长公共前缀。
  * <p>
@@ -26,16 +23,45 @@ import java.util.List;
  * created on 2020/4/15 10:07 下午.
  */
 public class LongestCommonPrefix {
-    public String longestCommonPrefix(String[] strs) {
-
-        List<Character> characterList = new ArrayList<>();
-        for (String str : strs) {
-
+    public static String longestCommonPrefix(String[] strs) {
+        if (strs.length == 0) {
+            return "";
         }
-        return null;
+        if (strs.length == 1) {
+            return strs[0];
+        }
+        String commonPrefix = "";
+        // 前一个字符串
+        String base = strs[0];
+        for (int i = 1; i < strs.length; i++) {
+            String str = strs[i];
+            if (str.equals("")) {
+                return "";
+            }
+            int length = 1;
+            boolean flag = true;
+            while (flag) {
+                flag = false;
+                if (length <= base.length()) {
+                    String result = base.substring(0, length);
+                    if (str.startsWith(result)) {
+                        commonPrefix = result;
+                        length = length + 1;
+                        flag = true;
+                    } else {
+                        flag = false;
+                    }
+                }
+            }
+            base = commonPrefix;
+        }
+        return commonPrefix;
+        //return commonPrefix.length() > 0 ? commonPrefix.substring(0, commonPrefix.length() - 1) : commonPrefix;
     }
 
     public static void main(String[] args) {
+        String[] a = new String[]{"a", "a", "c"};
 
+        System.out.println(longestCommonPrefix(a));
     }
 }
