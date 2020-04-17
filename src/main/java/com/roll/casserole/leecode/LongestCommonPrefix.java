@@ -27,43 +27,20 @@ public class LongestCommonPrefix {
         if (strs.length == 0) {
             return "";
         }
-        if (strs.length == 1) {
-            return strs[0];
-        }
-        String commonPrefix = "";
-        // 前一个字符串
-        String base = strs[0];
+        String commonPrefix = strs[0];
         for (int i = 1; i < strs.length; i++) {
-            String str = strs[i];
-            if (str.equals("")) {
-                return "";
-            }
-            int length = 1;
-            boolean flag = true;
-            while (flag) {
-                flag = false;
-                if (length <= base.length()) {
-                    String result = base.substring(0, length);
-                    if (str.startsWith(result)) {
-                        commonPrefix = result;
-                        length = length + 1;
-                        flag = true;
-                    } else {
-                        if (i == strs.length - 1 && length == 1) {
-                            commonPrefix = "";
-                        }
-                        flag = false;
-                    }
+            while (strs[i].indexOf(commonPrefix) != 0) {
+                commonPrefix = commonPrefix.substring(0, commonPrefix.length() - 1);
+                if (commonPrefix.isEmpty()) {
+                    return "";
                 }
             }
-            base = commonPrefix;
         }
         return commonPrefix;
-        //return commonPrefix.length() > 0 ? commonPrefix.substring(0, commonPrefix.length() - 1) : commonPrefix;
     }
 
     public static void main(String[] args) {
-        String[] a = new String[]{"a", "a", "c"};
+        String[] a = new String[]{"flower","flow","flight"};
 
         System.out.println(longestCommonPrefix(a));
     }
