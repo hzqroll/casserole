@@ -49,6 +49,9 @@ public class LongestCommonPrefix {
                         length = length + 1;
                         flag = true;
                     } else {
+                        if (i == strs.length - 1 && length == 1) {
+                            commonPrefix = "";
+                        }
                         flag = false;
                     }
                 }
