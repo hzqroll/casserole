@@ -48,8 +48,8 @@ public class MinFallingPathSum {
                 next[2] = i1 + 1;
             }
             for (int i2 = 0; i2 < next.length; i2++) {
-                int result1 = 0;
-                for (int i = 0; i < A.length; i++) {
+                int result1 = basic[i1];
+                for (int i = 1; i < A.length; i++) {
                     if (A[i].length > next[i2]) {
                         result1 = result1 + A[i][next[i2]];
                     } else {
