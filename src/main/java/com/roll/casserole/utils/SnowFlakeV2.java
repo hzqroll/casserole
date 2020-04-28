@@ -31,14 +31,19 @@ public class SnowFlakeV2 {
         maxTimeStamp = (1L << (timeStampBitLength - 1)) * 2 - 1;
         maxMachine = (1L << (machineBitLength - 1)) * 2 - 1;
         maxSequence = (1L << (sequenceBitLength - 1)) * 2 - 1;
-        maxTimeStampLeftShift = (1L << (machineBitLength + sequenceBitLength - 1) * 2 - 1);
+        maxTimeStampLeftShift = sequenceBitLength + machineBitLength;
     }
 
     public synchronized long getNextId() {
         long currentTimeStamp = getCurrentTimeStamp();
+        // 如果当前时间小于上一次ID生成的时间戳，说明系统时钟回退过，这个时候应当抛出异常
         if (currentTimeStamp < lastTimeStamp) {
-            lastTimeStamp = getCurrentTimeStamp();
-            getNextId();
+            try {
+                // 等待系统时间追上来，前面的时间都已经被占用了
+                Thread.sleep(lastTimeStamp - currentTimeStamp);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         // 如果是当前时间，sequence+1，取数据
@@ -55,7 +60,7 @@ public class SnowFlakeV2 {
         //上次生成ID的时间截
         lastTimeStamp = currentTimeStamp;
         //移位并通过或运算拼到一起组成64位的ID
-        return ((lastTimeStamp - startTimeStamp) << maxTimeStampLeftShift) | (machineId << maxMachine) | sequenceId;
+        return ((lastTimeStamp - startTimeStamp) << maxTimeStampLeftShift) | (machineId << maxSequence) | sequenceId;
     }
 
     public long getCurrentTimeStamp() {
@@ -71,7 +76,7 @@ public class SnowFlakeV2 {
     }
 
     public static void main(String[] args) {
-        System.out.println((1L << 40) * 2 - 1);
-        System.out.println(~(1L << 42) << 1);
+        SnowFlakeV2 snowFlakeV2 = new SnowFlakeV2();
+        System.out.println(snowFlakeV2.getNextId());
     }
 }
