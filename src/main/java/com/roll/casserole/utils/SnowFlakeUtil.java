@@ -102,7 +102,7 @@ public class SnowFlakeUtil {
     public static void main(String[] args) {
         Factory factory = new Factory();
         SnowFlakeUtil snowFlakeUtil = factory.create(10, 20);
-        System.out.println(18&7);
+        System.out.println(snowFlakeUtil.nextId());
     }
 
     /**
@@ -142,5 +142,4 @@ public class SnowFlakeUtil {
         }
         return timestamp;
     }
-
 }
