@@ -1,5 +1,11 @@
 package com.roll.casserole.utils;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.TimeUnit;
+
 /**
  * 41位日期
  * 10位机器ID
@@ -66,5 +72,36 @@ public class SnowFlakeV3 {
             getNextTimeStamp();
         }
         return currentTime;
+    }
+
+    private static final DelayQueue<TimerDelayed> sequenceDelayQueue = new DelayQueue<>();
+}
+
+class TimerDelayed implements Delayed {
+
+    private long data;
+
+    public TimerDelayed(long data) {
+        this.data = data;
+    }
+
+    public TimerDelayed(long data, long delayTime) {
+        this.data = data;
+        this.delayTime = delayTime;
+    }
+
+    /**
+     * 过期时间：毫秒级别:默认三分钟
+     */
+    private long delayTime = 3 * 60 * 1000;
+
+    @Override
+    public long getDelay(@NotNull TimeUnit unit) {
+        return unit.convert(delayTime, TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    public int compareTo(@NotNull Delayed o) {
+        return Long.compare(this.getDelay(TimeUnit.MILLISECONDS), o.getDelay(TimeUnit.MILLISECONDS));
     }
 }
