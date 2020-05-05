@@ -1,11 +1,5 @@
 package com.roll.casserole.utils;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.DelayQueue;
-import java.util.concurrent.Delayed;
-import java.util.concurrent.TimeUnit;
-
 /**
  * 41位日期
  * 10位机器ID
@@ -49,19 +43,6 @@ public class SnowFlakeV3 {
         return (currentTimeStamp << (machineBit + sequenceBit)) | (machineId << sequenceBit) | sequenceId;
     }
 
-    public static void main(String[] args) {
-        SnowFlakeV3 snowFlakeV3 = new SnowFlakeV3(102);
-        System.out.println(snowFlakeV3.getNextId());
-        System.out.println(Integer.toBinaryString(~(-1 << 12)));
-        long currentTime = System.currentTimeMillis();
-        int count = 0;
-        for (int i = 0; System.currentTimeMillis() - currentTime <= 1000; i++) {
-            snowFlakeV3.getNextId();
-            count++;
-        }
-        System.out.println(count);
-    }
-
     public long getCurrentTime() {
         return System.currentTimeMillis();
     }
@@ -74,34 +55,16 @@ public class SnowFlakeV3 {
         return currentTime;
     }
 
-    private static final DelayQueue<TimerDelayed> sequenceDelayQueue = new DelayQueue<>();
-}
-
-class TimerDelayed implements Delayed {
-
-    private long data;
-
-    public TimerDelayed(long data) {
-        this.data = data;
-    }
-
-    public TimerDelayed(long data, long delayTime) {
-        this.data = data;
-        this.delayTime = delayTime;
-    }
-
-    /**
-     * 过期时间：毫秒级别:默认三分钟
-     */
-    private long delayTime = 3 * 60 * 1000;
-
-    @Override
-    public long getDelay(@NotNull TimeUnit unit) {
-        return unit.convert(delayTime, TimeUnit.MILLISECONDS);
-    }
-
-    @Override
-    public int compareTo(@NotNull Delayed o) {
-        return Long.compare(this.getDelay(TimeUnit.MILLISECONDS), o.getDelay(TimeUnit.MILLISECONDS));
+    public static void main(String[] args) {
+        SnowFlakeV3 snowFlakeV3 = new SnowFlakeV3(102);
+        System.out.println(snowFlakeV3.getNextId());
+        System.out.println(Integer.toBinaryString(~(-1 << 12)));
+        long currentTime = System.currentTimeMillis();
+        int count = 0;
+        for (; System.currentTimeMillis() - currentTime <= 1000; ) {
+            snowFlakeV3.getNextId();
+            count++;
+        }
+        System.out.println(count);
     }
 }
