@@ -47,4 +47,9 @@
     </bean>
 
     <bean id="defaultProxy" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <bean id="user" class="com.roll.casserole.common.User">
+        <property name="age" value="17"/>
+        <property name="name" value="张三"/>
+    </bean>
 </beans>
