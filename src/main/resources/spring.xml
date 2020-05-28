@@ -11,6 +11,8 @@
 
     <context:component-scan base-package="com.roll.casserole.common"/>
 
+    <context:property-placeholder location="application.properties"/>
+
     <bean id="talk" class="com.roll.casserole.common.DogTalk"/>
 
     <bean id="beforeTalk" class="com.roll.casserole.aop.Advice.BeforeTalk"/>
@@ -48,17 +50,5 @@
 
     <bean id="defaultProxy" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
 
-<!--    <beans profile="dev">-->
-<!--        <bean id="user" class="com.roll.casserole.common.User">-->
-<!--            <property name="name" value="dev张三"/>-->
-<!--            <property name="age" value="17"/>-->
-<!--        </bean>-->
-<!--    </beans>-->
-
-<!--    <beans profile="test">-->
-<!--        <bean id="user" class="com.roll.casserole.common.User">-->
-<!--            <property name="name" value="test张三"/>-->
-<!--            <property name="age" value="17"/>-->
-<!--        </bean>-->
-<!--    </beans>-->
+    <bean id="environmentTest" class="com.roll.casserole.spring.bean.EnvironmentTest"/>
 </beans>

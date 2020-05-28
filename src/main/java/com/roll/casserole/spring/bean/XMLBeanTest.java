@@ -1,8 +1,9 @@
 package com.roll.casserole.spring.bean;
 
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.env.Profiles;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.EnvironmentCapable;
 
 /**
  * @author roll
@@ -11,8 +12,14 @@ import org.springframework.core.env.Profiles;
 public class XMLBeanTest {
     public static void main(String[] args) {
         // 1 XML注册
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:bean.xml");
-        applicationContext.getEnvironment().acceptsProfiles(Profiles.of("dev"));
+        AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.getEnvironment().setActiveProfiles("dev");
+        applicationContext.refresh();
         System.out.println(applicationContext.getBean("user"));
+
+        //EnvironmentTest environmentTest = applicationContext.getBean("environmentTest", EnvironmentTest.class);
+        //System.out.println(environmentTest.getValue());
+        Environment environment = applicationContext.getEnvironment();
+        System.out.println(environment.getProperty("test.value"));
     }
 }
