@@ -21,9 +21,4 @@
 
     <dubbo:service interface="com.roll.casserole.dubbo.client.DemoClient"
                    ref="DemoClient" protocol="rest" registry="N/A" validation="false" generic="true"/>
-
-    <bean id="user" class="com.roll.casserole.common.User">-->
-        <property name="name" value="test张三"/>
-        <property name="age" value="17"/>
-    </bean>
 </beans>

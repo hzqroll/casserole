@@ -51,4 +51,9 @@
     <bean id="defaultProxy" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
 
     <bean id="environmentTest" class="com.roll.casserole.spring.bean.EnvironmentTest"/>
+
+    <bean id="user" class="com.roll.casserole.common.User">
+        <property name="name" value="test张三"/>
+        <property name="age" value="17"/>
+    </bean>
 </beans>
