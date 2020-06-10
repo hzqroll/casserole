@@ -1,16 +1,15 @@
 package com.roll.casserole.spring.common;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanClassLoaderAware;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.*;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author roll
  * created on 2020/6/9 9:44 下午
  */
-public class UserHolder implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAware {
+public class UserHolder implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAware, InitializingBean, SmartInitializingSingleton {
 
     private User user;
 
@@ -66,5 +65,35 @@ public class UserHolder implements BeanNameAware, BeanFactoryAware, BeanClassLoa
     @Override
     public void setBeanName(String name) {
         this.beanName = name;
+    }
+
+    /**
+     * 依赖于注解驱动
+     * 当前场景：BeanFactory
+     */
+    @PostConstruct
+    public void initPostConstruct() {
+        this.desc = "the user holder v4";
+        System.out.println("PostConstruct() = " + desc);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        this.desc = "the user holder v5";
+        System.out.println("afterPropertiesSet() = " + desc);
+    }
+
+    /**
+     * 自定义初始化方法
+     */
+    public void init() {
+        this.desc = "the user holder v6";
+        System.out.println("init() = " + desc);
+    }
+
+    @Override
+    public void afterSingletonsInstantiated() {
+        this.desc = "the user holder v8";
+        System.out.println("afterSingletonsInstantiated() = " + desc);
     }
 }
