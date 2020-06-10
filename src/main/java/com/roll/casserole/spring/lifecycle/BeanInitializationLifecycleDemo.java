@@ -10,9 +10,9 @@ import org.springframework.core.io.support.EncodedResource;
 
 /**
  * @author roll
- * created on 2020/6/7 6:08 下午
+ * created on 2020/6/10 8:57 上午
  */
-public class BeanInstantiationLifecycleDemo {
+public class BeanInitializationLifecycleDemo {
     public static void main(String[] args) {
         executeBeanFactory();
     }
@@ -43,4 +43,3 @@ public class BeanInstantiationLifecycleDemo {
         System.out.println(userHolder);
     }
 }
-
