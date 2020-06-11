@@ -21,7 +21,7 @@
         <property name="parentName" value="userReference"/>
     </bean>
 
-    <bean id="userHolder" class="com.roll.casserole.spring.common.UserHolder" autowire="constructor" init-method="init">
+    <bean id="userHolder" class="com.roll.casserole.spring.common.UserHolder" autowire="constructor" init-method="init" destroy-method="doDestroy">
         <property name="desc" value="the user holder"/>
     </bean>
 

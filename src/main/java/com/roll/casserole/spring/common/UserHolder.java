@@ -4,12 +4,13 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.*;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * @author roll
  * created on 2020/6/9 9:44 下午
  */
-public class UserHolder implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAware, InitializingBean, SmartInitializingSingleton {
+public class UserHolder implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAware, InitializingBean, SmartInitializingSingleton, DisposableBean {
 
     private User user;
 
@@ -95,5 +96,26 @@ public class UserHolder implements BeanNameAware, BeanFactoryAware, BeanClassLoa
     public void afterSingletonsInstantiated() {
         this.desc = "the user holder v8";
         System.out.println("afterSingletonsInstantiated() = " + desc);
+    }
+
+    @PreDestroy
+    public void preDestroy() {
+        this.desc = "the user holder v10";
+        System.out.println("preDestroy() = " + desc);
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        this.desc = "the user holder v11";
+        System.out.println("destroy() = " + desc);
+    }
+
+    public void doDestroy() {
+        this.desc = "the user holder v12";
+        System.out.println("doDestroy() = " + desc);
+    }
+
+    protected void finalize() throws Throwable {
+        System.out.println("The userHolder is finalized...");
     }
 }
