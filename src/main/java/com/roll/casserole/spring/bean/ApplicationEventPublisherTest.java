@@ -17,7 +17,6 @@ import java.util.Arrays;
 @Configuration
 public class ApplicationEventPublisherTest implements ApplicationEventPublisherAware, ApplicationListener<SomeEvent> {
 
-    private String a;
     public static void main(String[] args) {
         // 1 XML注册
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
