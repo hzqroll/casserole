@@ -100,6 +100,12 @@ public class OrderDemo {
 
         sort(a);
         System.out.println(Arrays.toString(a));
+
+        //-1->5->3->4->0
+        ListNode head = new ListNode(-1).setNext(new ListNode(5).setNext(new ListNode(3).setNext(new ListNode(4))));
+
+        sortList(head);
+        System.out.println("1");
     }
 
     public static void sort(int[] arr) {
@@ -127,11 +133,11 @@ public class OrderDemo {
      */
     public static void mergeMy(int[] arr, int l, int m, int r) {
         // 左边数组内容
-        int[] leftArray = new int[m - l];
-        leftArray = Arrays.copyOfRange(arr, l, m+1);
+        int[] leftArray;
+        leftArray = Arrays.copyOfRange(arr, l, m + 1);
         // 右边数组内容
-        int[] rightArray = new int[r - 1 - l];
-        rightArray = Arrays.copyOfRange(arr, m + 1, r+1);
+        int[] rightArray;
+        rightArray = Arrays.copyOfRange(arr, m + 1, r + 1);
 
         int i = 0, j = 0;
         // 数组合并, 排序后合并
@@ -152,5 +158,80 @@ public class OrderDemo {
         while (j < rightArray.length) {
             arr[l++] = rightArray[j++];
         }
+    }
+
+    /**
+     * 对list进行排序
+     *
+     * @param head 头节点
+     * @return 头节点
+     */
+    public static ListNode sortList(ListNode head) {
+        return head == null ? null : mergeSortList(head);
+    }
+
+    private static ListNode mergeSortList(ListNode head) {
+        // 如果只有一个节点，直接返回，不需要比较
+        if (head.next == null) {
+            return head;
+        }
+        // 利用快慢节点，来进行切割
+        // pre的作用是记录slow的前一个位置，用来分割两个链表，下一个链表的位置从slow开始
+        ListNode slow = head, fast = head, pre = null;
+        while (fast != null && fast.next != null) {
+            pre = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        pre.next = null;
+        ListNode l = mergeSortList(head);
+        ListNode r = mergeSortList(slow);
+        return merge(l, r);
+    }
+
+    static ListNode merge(ListNode l, ListNode r) {
+        // 虚拟出一个头节点
+        ListNode dummyHead = new ListNode(0);
+        // cur位置
+        ListNode cur = dummyHead;
+        while (l != null && r != null) {
+            if (l.val <= r.val) {
+                // cur的next是l
+                cur.next = l;
+                // cur 移动以为，也就是刚刚的l
+                cur = cur.next;
+                // l移动一位
+                l = l.next;
+            } else {
+                cur.next = r;
+                cur = cur.next;
+                r = r.next;
+            }
+        }
+        // 最后给cur的next
+        if (l != null) {
+            cur.next = l;
+        }
+        // 最后给cur的next
+        if (r != null) {
+            cur.next = r;
+        }
+        // 虚拟节点的拼接的链表
+        return dummyHead.next;
+    }
+}
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+    }
+
+    public ListNode setNext(ListNode next) {
+        this.next = next;
+        return this;
     }
 }
