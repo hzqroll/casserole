@@ -12,7 +12,6 @@ public class ByteBufTest {
         ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer(9, 100);
         print("allocate ByteBuf(9, 100)", buffer);
 
-
         //write 方法改变指针 写完之后写指针味道capacit的时候,mbyffer任然可以写
         buffer.writeBytes(new byte[]{1, 2, 3, 4});
         print("writeBytes(1,2,3,4)", buffer);

@@ -95,17 +95,21 @@ public class OrderDemo {
 
         //System.out.println(Arrays.toString(bubblingOrder(new int[]{11, 22, 3, 4, 15})));
         int[] a = new int[]{11, 22, 3, 4, 15};
-        //mergeSort(a);
+        mergeSort(a);
         System.out.println(Arrays.toString(a));
 
-        sort(a);
-        System.out.println(Arrays.toString(a));
+        Integer[] b = new Integer[]{3, 5, 31, 42, 55};
+        System.out.println(getIndex(b, 66));
+//        sort(a);
+//        System.out.println(Arrays.toString(a));
+//
+//        //-1->5->3->4->0
+//        ListNode head = new ListNode(-1).setNext(new ListNode(5).setNext(new ListNode(3).setNext(new ListNode(4))));
+//
+//        sortList(head);
+//        System.out.println("1");
 
-        //-1->5->3->4->0
-        ListNode head = new ListNode(-1).setNext(new ListNode(5).setNext(new ListNode(3).setNext(new ListNode(4))));
 
-        sortList(head);
-        System.out.println("1");
     }
 
     public static void sort(int[] arr) {
@@ -219,6 +223,27 @@ public class OrderDemo {
         }
         // 虚拟节点的拼接的链表
         return dummyHead.next;
+    }
+
+    public static int getIndex(Integer[] arr, int target) {
+        return getIndex(arr, 0, arr.length, target);
+    }
+
+    public static int getIndex(Integer[] arr, int start, int end, int target) {
+        if (start == end) {
+            if (end == arr.length) {
+                return 0;
+            }
+            return start + 1;
+        }
+        int mid = (start + end) / 2;
+        if (arr[mid] < target) {
+            return getIndex(arr, mid + 1, end, target);
+        } else if (arr[mid] > target) {
+            return getIndex(arr, start, mid, target);
+        } else {
+            return mid;
+        }
     }
 }
 

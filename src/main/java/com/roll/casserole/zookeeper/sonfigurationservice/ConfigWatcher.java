@@ -30,6 +30,5 @@ public class ConfigWatcher implements Watcher {
     public static void main(String args[]){
         ConfigWatcher configWatcher = new ConfigWatcher("localhost");
         configWatcher.displayConfig();
-
     }
 }
