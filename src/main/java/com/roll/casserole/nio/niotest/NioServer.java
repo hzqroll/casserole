@@ -1,7 +1,5 @@
 package com.roll.casserole.nio.niotest;
 
-import io.netty.buffer.ByteBuf;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
@@ -64,7 +62,8 @@ public class NioServer {
                             try {
                                 socketChannel.read(byteBuffer);
                                 byteBuffer.flip();
-                                System.out.println("服务端接收到数据： " + new String(byteBuffer.array()));
+                                System.out.println("服务端接收到数据： " + new String(byteBuffer.array()) + "当前时间戳：" + System.currentTimeMillis());
+                                socketChannel.register(selector, SelectionKey.OP_WRITE);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -74,12 +73,26 @@ public class NioServer {
                                 SocketChannel socketChannel = serverSocketChannelAccept.accept();
                                 ByteBuffer byteBufferRead = ByteBuffer.allocate(256);
                                 socketChannel.read(byteBufferRead);
-                                System.out.println("接收到链接：Channel：" + socketChannel + ", 消息： " + new String(byteBufferRead.array()));
+                                System.out.println("服务端接收到链接：Channel：" + socketChannel + ", 附加消息： " + new String(byteBufferRead.array()));
                                 // 发送消息
                                 ByteBuffer byteBuffer;
-                                byteBuffer = ByteBuffer.wrap("已连接".getBytes());
+                                byteBuffer = ByteBuffer.wrap(("服务端已连接" + System.currentTimeMillis()).getBytes());
                                 socketChannel.write(byteBuffer);
+                                socketChannel.configureBlocking(false);
+                                socketChannel.register(selector, SelectionKey.OP_READ);
                             } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (selectionKey.isWritable()) {
+                            SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
+                            try {
+                                String message = "来自服务端的消息，时间戳" + System.currentTimeMillis();
+                                ByteBuffer msg = ByteBuffer.allocate(256);
+                                msg.put(message.getBytes());
+                                msg.flip();
+                                socketChannel.write(msg);
+                                socketChannel.register(selector, SelectionKey.OP_READ);
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
