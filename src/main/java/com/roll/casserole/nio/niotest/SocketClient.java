@@ -58,6 +58,7 @@ public class SocketClient {
                         } else if (selectionKey.isReadable()) {
                             ByteBuffer message = ByteBuffer.allocate(256);
                             socketChannel.read(message);
+                            message.flip();
                             System.out.println(clientName + ", 收到来自服务端的消息， " + new String(message.array()));
                             socketChannel.register(selector, SelectionKey.OP_WRITE);
                         }

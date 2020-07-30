@@ -1,5 +1,8 @@
 package com.roll.casserole.nio.niotest;
 
+import com.roll.casserole.nio.scalable.demo1.ChannelHandler;
+import com.roll.casserole.nio.scalable.demo1.NioBootStrap;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
@@ -16,7 +19,9 @@ import java.util.Set;
  */
 public class NioServer {
     public static void main(String[] args) throws IOException {
-        server2();
+        ChannelHandler channelHandler = new ChannelHandler();
+        NioBootStrap nioBootStrap = new NioBootStrap(channelHandler);
+        nioBootStrap.bind(9016);
     }
 
     public static void server1() {
