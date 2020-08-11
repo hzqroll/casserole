@@ -4,7 +4,6 @@ package com.roll.casserole.jvm.classloader;
  * @author roll
  * created on 2019-10-13 14:51
  *
- *
  * <pre>
  *     Compiled from "MyTest2.java"
  * public class com.roll.casserole.jvm.classloader.MyTest2 {
