@@ -1,10 +1,5 @@
 package com.roll.casserole.leecode;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -35,37 +30,30 @@ import java.util.*;
  */
 public class Solution3 {
     public static int lengthOfLongestSubstring(String s) {
-        int maxLength = 0;
+        int max = 0;
+        // 保存最大长度的数据，每次碰到重复的清空内容
+        List<Character> cList = new ArrayList<>(s.length());
 
-        // 转换后的list
-        Map<Character, Integer> characterSet = new HashMap<>();
-        int i = 0;
-        if (s.length() == 1) {
-            return 1;
-        }
-        while (i < s.length()) {
-            char currentChar = s.charAt(i);
-            if (characterSet.containsKey(currentChar)) {
-                if (characterSet.size() > maxLength) {
-                    maxLength = characterSet.size();
-                }
-                i = characterSet.get(currentChar) + 1;
-                characterSet.clear();
+        // 开始计算位置
+        for (int i = 0; i < s.length(); i++) {
+            if (!cList.contains(s.charAt(i))) {
+                cList.add(s.charAt(i));
             } else {
-                characterSet.put(currentChar, i);
-                i = i + 1;
-                if (characterSet.size() > maxLength) {
-                    maxLength = characterSet.size();
+                if (cList.contains(s.charAt(i))) {
+                    cList.subList(0, cList.indexOf(s.charAt(i)) + 1).clear();
                 }
+                i = i - 1;
+            }
+            if (max < cList.size()) {
+                max = cList.size();
             }
         }
-
-        return maxLength;
+        return max;
     }
 
     public static void main(String[] args) {
-        System.out.println(lengthOfLongestSubstring(""));
+        System.out.println(lengthOfLongestSubstring("aab"));
 
-        System.out.println(lengthOfLongestSubstring("au"));
+        System.out.println(lengthOfLongestSubstring("qrsvbspk"));
     }
 }

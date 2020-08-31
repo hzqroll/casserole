@@ -1,5 +1,6 @@
 package com.roll.casserole.leecode;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,37 +18,33 @@ public class Solution {
      * @param target target = 9
      * @return return [0, 1]
      */
-    public int[] twoSum(int[] nums, int target) {
-        /*for (int i = 0; i < nums.length; i++) {
-            for (int j = 0; j < nums.length; j++) {
-                if (nums[i] + nums[j] == target) {
-                    if (i != j) {
-                        return new int[]{i, j};
-                    }
-                }
-            }
-        }*/
-
-        Map<Integer, Integer> cacheMap = new HashMap<>();
+    public static int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> numMap = new HashMap<>(nums.length);
+        int[] result = new int[2];
         for (int i = 0; i < nums.length; i++) {
-            cacheMap.put(nums[i], i);
-        }
-        for (int i = 0; i < nums.length; i++) {
-            int otherNum = target - nums[i];
-            if (cacheMap.containsKey(otherNum) && (cacheMap.get(otherNum) != i)) {
-                return new int[]{i, cacheMap.get(otherNum)};
+            int a = target - nums[i];
+            if (numMap.containsKey(a)) {
+                result[0] = numMap.get(a);
+                result[1] = i;
+            } else {
+                numMap.put(nums[i], i);
             }
         }
+        return result;
+    }
 
-        throw new IllegalArgumentException("no solution");
+    public static void main(String[] args) {
+        int[] a = new int[]{3, 3};
+        System.out.println(Arrays.toString(twoSum(a, 6)));
     }
 
     /**
      * You are given coins of different denominations and a total amount of money.
      * Write a function to compute the number of combinations that make up that amount.
      * You may assume that you have infinite number of each kind of coin.
+     *
      * @param amount amount = 5
-     * @param coins coins = [1, 2, 5]
+     * @param coins  coins = [1, 2, 5]
      * @return
      */
     public int change(int amount, int[] coins) {

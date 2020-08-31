@@ -3,6 +3,8 @@ package com.roll.casserole.buffer.file;
 import java.io.*;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author roll
@@ -16,6 +18,7 @@ public class FileFunctionTest {
         String destPath = "/Users/haozongqiang/Downloads/temp/dest.txt";
         fileFunctionTest.mappedFileTest(sourcePath, destPath);
         fileFunctionTest.fileInputStreamTest(sourcePath, destPath);
+        Map<String, String> stringStringMap = new HashMap<>();
         for (; ; ) {
         }
     }
