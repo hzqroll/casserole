@@ -28,36 +28,93 @@ public class Solution5 {
      * @param s
      * @return
      */
-    public String longestPalindrome(String s) {
-        Set<String> tempSet = new HashSet<>();
-        int i = 0;
-        while (i < s.length()) {
-            i++;
+    public static String longestPalindrome(String s) {
+        if (s.length() == 0) {
+            return "";
         }
-        return null;
+        char[] tem = s.toCharArray();
+        int start = 0;
+        int max = 1;
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = i + 1; j < s.length(); j++) {
+                if (j - i + 1 > max && isPalindrome(tem, i, j)) {
+                    max = j - i + 1;
+                    start = i;
+                }
+            }
+        }
+        return s.substring(start, start + max);
     }
 
-    public static void main(String[] args) throws IOException {
-        OkHttpClient client = new OkHttpClient();
+    // 判断是否是回文串
+    public static boolean isPalindrome(char[] array, int start, int end) {
+        int i = start;
+        int j = end;
+        while (i < j) {
+            if (array[i] != array[j]) {
+                return false;
+            } else {
+                i = i + 1;
+                j = j - 1;
+            }
+        }
+        return true;
+    }
 
-        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        RequestBody body = RequestBody.create(mediaType, "biz_code=zhibiaoguan&id_number=410122199105252652&black_box=6224900598341823&sequence_id=1534843456268&application_id=WF2018062015224413855084");
-        Request request = new Request.Builder()
-                .url("http://localhost:9000/bodyguard/apply/v4.5?partner_code=newnew&partner_key=123456789&app_name=newnew_web&=")
-                .post(body)
-                .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addHeader("User-Agent", "PostmanRuntime/7.15.2")
-                .addHeader("Accept", "*/*")
-                .addHeader("Cache-Control", "no-cache")
-                .addHeader("Postman-Token", "13650f49-3d0f-46d4-b6d2-b6560bef8fac,4443e0f8-adeb-499b-99b5-3aaedc22fc98")
-                .addHeader("Host", "localhost:9000")
-                .addHeader("Accept-Encoding", "gzip, deflate")
-                .addHeader("Content-Length", "142")
-                .addHeader("Connection", "keep-alive")
-                .addHeader("cache-control", "no-cache")
-                .build();
+    public static String longestPalindromeWithDp(String s) {
+        int len = s.length();
+        // 特判
+        if (len < 2) {
+            return s;
+        }
 
-        Response response = client.newCall(request).execute();
-        System.out.println(response.body());
+        int maxLen = 1;
+        int begin = 0;
+
+        // 1. 状态定义
+        // dp[i][j] 表示s[i...j] 是否是回文串
+
+        // 2. 初始化
+        boolean[][] dp = new boolean[len][len];
+        for (int i = 0; i < len; i++) {
+            dp[i][i] = true;
+        }
+
+        char[] chars = s.toCharArray();
+        // 3. 状态转移
+        // 注意：先填左下角
+        // 填表规则：先一列一列的填写，再一行一行的填，保证左下方的单元格先进行计算
+        for (int j = 1; j < len; j++) {
+            for (int i = 0; i < j; i++) {
+                // 头尾字符不相等，不是回文串
+                if (chars[i] != chars[j]) {
+                    dp[i][j] = false;
+                } else {
+                    // 相等的情况下
+                    // 考虑头尾去掉以后没有字符剩余，或者剩下一个字符的时候，肯定是回文串
+                    if (j - i < 3) {
+                        dp[i][j] = true;
+                    } else {
+                        // 状态转移
+                        dp[i][j] = dp[i + 1][j - 1];
+                    }
+                }
+
+                // 只要dp[i][j] == true 成立，表示s[i...j] 是否是回文串
+                // 此时更新记录回文长度和起始位置
+                if (dp[i][j] && j - i + 1 > maxLen) {
+                    maxLen = j - i + 1;
+                    begin = i;
+                }
+            }
+        }
+        // 4. 返回值
+        return s.substring(begin, begin + maxLen);
+    }
+
+    public static void main(String[] args) {
+        String s = "abacabs";
+        char[] tem = s.toCharArray();
+        System.out.println(longestPalindromeWithDp(s));
     }
 }

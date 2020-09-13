@@ -14,10 +14,10 @@
     <dubbo:protocol name="dubbo" port="20880"/>
 
     <!-- 声明需要暴露的服务接口 -->
-    <dubbo:service interface="com.roll.casserole.dubbo.DemoService" ref="demoService"/>
+    <dubbo:service interface="com.roll.casserole.dubbo.CasseroleService" ref="demoService"/>
 
     <!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
-    <dubbo:reference id="demoService" interface="com.roll.casserole.dubbo.DemoService"/>
+    <dubbo:reference id="demoService" interface="com.roll.casserole.dubbo.CasseroleService"/>
 
     <dubbo:service interface="com.roll.casserole.dubbo.client.DemoClient"
                    ref="DemoClient" protocol="rest" registry="N/A" validation="false" generic="true"/>
