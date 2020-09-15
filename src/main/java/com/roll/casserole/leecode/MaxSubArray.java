@@ -41,8 +41,28 @@ public class MaxSubArray {
         return result;
     }
 
+    /**
+     * 利用动态规划
+     */
+    public static int maxSubArray1(int[] nums) {
+        int count;
+        for (int i = 1; i < nums.length; i++) {
+            count = nums[i] + nums[i - 1];
+            // 如果大于，说明是增加的，
+            if (nums[i] > count) {
+                nums[i] = count;
+            }
+        }
+        count = nums[nums.length - 1];
+        for (Integer c : nums) {
+            count = Math.max(c, count);
+        }
+        return count;
+    }
+
     public static void main(String[] args) {
-        int[] nums = new int[]{1, 2};
+        int[] nums = new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4};
         System.out.println(maxSubArray(nums));
+        System.out.println(maxSubArray1(nums));
     }
 }

@@ -51,9 +51,47 @@ public class Solution3 {
         return max;
     }
 
+    public static int lengthOfLongestSubstring1(String s) {
+        List<Character> cList = new ArrayList<>(s.length());
+        int maxLength = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (!cList.contains(c)) {
+                cList.add(c);
+            } else {
+                if (cList.contains(s.charAt(i))) {
+                    cList.subList(0, cList.indexOf(s.charAt(i)) + 1).clear();
+                }
+                i = i - 1;
+            }
+            if (maxLength < cList.size()) {
+                maxLength = cList.size();
+            }
+        }
+        return maxLength;
+    }
+
     public static void main(String[] args) {
         System.out.println(lengthOfLongestSubstring("aab"));
 
-        System.out.println(lengthOfLongestSubstring("qrsvbspk"));
+        System.out.println(lengthOfLongestSubstring("aabaab!bb"));
+        System.out.println(lengthOfLongestSubstring1("aabaab!bb"));
+
+    }
+
+    private static Solution3 instance = null;
+
+    private static final Object lock = new Object();
+
+    public static Solution3 getInstance() {
+        if (instance == null) {
+            synchronized (lock) {
+                if (instance != null) {
+                    return instance;
+                }
+                instance = new Solution3();
+            }
+        }
+        return instance;
     }
 }

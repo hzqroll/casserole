@@ -3,6 +3,7 @@ package com.roll.casserole.leecode;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * @author zongqiang.hao
@@ -35,7 +36,9 @@ public class Solution {
 
     public static void main(String[] args) {
         int[] a = new int[]{3, 3};
-        System.out.println(Arrays.toString(twoSum(a, 6)));
+        //System.out.println(Arrays.toString(twoSum(a, 6)));
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(scanner.nextLine());
     }
 
     /**

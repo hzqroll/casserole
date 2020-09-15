@@ -1,5 +1,6 @@
 package com.roll.casserole.leecode;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -43,11 +44,50 @@ public class MaxProfit {
         return result;
     }
 
+    public static int maxProfit1(int[] prices) {
+        if (prices == null) {
+            return 0;
+        }
+        if (prices.length == 1) {
+            return 0;
+        }
+        int min = Integer.MAX_VALUE;
+        int result = 0;
+        // 找出最大值和最小值，并且最大值在最小值的前面
+        for (int price : prices) {
+            if (min > price) {
+                min = price;
+            }
+            if (price - min > result) {
+                result = price - min;
+            }
+        }
+        return result;
+    }
+
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> maps = new HashMap<>(nums.length);
+        int i = 0;
+        for (Integer item : nums) {
+            int a = target - item;
+            if (maps.containsKey(a)) {
+                return new int[]{
+                        a, maps.get(a)
+                };
+            } else {
+                maps.put(item, i);
+            }
+            i++;
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         int[] prices = new int[]{
-                7, 1, 5, 3, 6, 4
+                7, 2, 5, 3, 6, 4, 10, 11, 1
         };
-
         System.out.println(maxProfit(prices));
+        System.out.println(maxProfit1(prices));
+
     }
 }
