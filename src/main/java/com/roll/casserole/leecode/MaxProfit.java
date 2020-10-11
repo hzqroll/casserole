@@ -44,6 +44,21 @@ public class MaxProfit {
         return result;
     }
 
+    public static int maxProfit2(int[] prices) {
+        int result = 0;
+        int min = Integer.MAX_VALUE;
+        for (int i : prices) {
+            if (i - min > result) {
+                result = i - min;
+            }
+            if (i < min) {
+                min = i;
+            }
+        }
+        return result;
+    }
+
+
     public static int maxProfit1(int[] prices) {
         if (prices == null) {
             return 0;
@@ -88,6 +103,22 @@ public class MaxProfit {
         };
         System.out.println(maxProfit(prices));
         System.out.println(maxProfit1(prices));
+        System.out.println(maxProfit2(prices));
+        System.out.println(maxProfit3(prices));
+    }
 
+    /**
+     * 如果每天都可以买卖
+     */
+    public static int maxProfit3(int[] prices) {
+        int result = 0;
+        int min = prices[0];
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > min) {
+                result = result + prices[i] - min;
+            }
+            min = prices[i];
+        }
+        return result;
     }
 }

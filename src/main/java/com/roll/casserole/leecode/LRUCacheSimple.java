@@ -1,5 +1,8 @@
 package com.roll.casserole.leecode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。
  * <p>
@@ -34,19 +37,85 @@ package com.roll.casserole.leecode;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  * <p>@author roll
  * <p>created on 2020/9/13 10:36 上午
+ * <p>
+ * 如果超过容量，
+ * 查询之后，需要
  */
 public class LRUCacheSimple {
+    int count = 0;
     int capacity;
+
+    Map<Integer, DoubleNode> dataMap;
+    DoubleNode head;
+    DoubleNode tail;
 
     public LRUCacheSimple(int capacity) {
         this.capacity = capacity;
+        this.dataMap = new HashMap<>(capacity);
     }
 
+    /**
+     * 找到数据，移动数据到头部的下一个
+     */
     public int get(int key) {
-        return 1;
+        if (dataMap.get(key) != null) {
+            moveToHead(dataMap.get(key));
+            return dataMap.get(key).value;
+        }
+        return -1;
     }
 
     public void put(int key, int value) {
+        if (count >= capacity) {
+            removeTail();
+        }
+        DoubleNode doubleNode;
+        if (dataMap.containsKey(key)) {
+            doubleNode = dataMap.get(key);
+        } else {
+            doubleNode = new DoubleNode(key, value);
+        }
+        moveToHead(doubleNode);
+        dataMap.put(key, doubleNode);
+    }
 
+    /**
+     * 增加节点
+     */
+    void addNode(DoubleNode doubleNode) {
+        doubleNode.next = head.next;
+        doubleNode.previous = head;
+    }
+
+    /**
+     * 删除节点
+     */
+    void removeNode(DoubleNode node) {
+        node.previous.next = node.next;
+        node.next.previous = node.previous;
+    }
+
+    void removeTail() {
+        removeNode(tail.previous);
+    }
+
+    void moveToHead(DoubleNode node) {
+        head.next.previous = node;
+        node.next = head.next;
+        node.previous = head;
     }
 }
+
+class DoubleNode {
+    int key;
+    int value;
+    DoubleNode next;
+    DoubleNode previous;
+
+    public DoubleNode(int key, int value) {
+        this.key = key;
+        this.value = value;
+    }
+}
+
+

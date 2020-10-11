@@ -47,17 +47,41 @@ package com.roll.casserole.leecode;
  * <p>created on 2020/9/17 11:15 上午
  */
 public class RemoveDuplicates {
-    public int removeDuplicates(int[] nums) {
-        int length = 0;
+    public static int removeDuplicates(int[] nums) {
         if (nums.length == 1) {
             return nums.length;
         }
 
+        int index = 0;
         for (int i = 1; i < nums.length; i++) {
             if (nums[i] == nums[i - 1]) {
-
+                if (nums.length - 1 - index - i >= 0)
+                    System.arraycopy(nums, i + 1, nums, i, nums.length - 1 - index - i);
+                index++;
             }
         }
-        return 1;
+        return nums.length - index;
+    }
+
+    public static int removeDuplicates1(int[] nums) {
+        if (nums.length == 1) {
+            return nums.length;
+        }
+        int slow = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[slow] != nums[i]) {
+                nums[slow + 1] = nums[i];
+                slow = slow + 1;
+            }
+        }
+        return slow + 1;
+    }
+
+    public static void main(String[] args) {
+        int[] a = new int[]{1, 1, 2, 2, 3};
+        int length = removeDuplicates1(a);
+        for (int i = 0; i < length + 1; i++) {
+            System.out.println(a[i]);
+        }
     }
 }

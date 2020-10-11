@@ -2,6 +2,7 @@ package com.roll.casserole.nio.scalable.demo1;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.StandardSocketOptions;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -34,6 +35,7 @@ public class NioBootStrap {
             //serverSocketChannel = ServerSocketChannel.open().bind(new InetSocketAddress(9016));
             serverSocketChannel = SelectorProvider.provider().openServerSocketChannel();
             serverSocketChannel.bind(new InetSocketAddress(port));
+            serverSocketChannel.setOption(StandardSocketOptions.SO_RCVBUF, 10090);
 
             selector = SelectorProvider.provider().openSelector();
             serverSocketChannel.configureBlocking(false);
