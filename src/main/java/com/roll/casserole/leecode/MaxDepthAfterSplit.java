@@ -58,6 +58,7 @@ import java.util.Arrays;
  * <p>
  * 此外，由于在这个问题中，栈中只会存放 (，因此我们不需要维护一个真正的栈，只需要用一个变量模拟记录栈的大小。
  * <p>
+ *     https://leetcode-cn.com/problems/maximum-nesting-depth-of-two-valid-parentheses-strings/solution/
  */
 public class MaxDepthAfterSplit {
     public static int[] maxDepthAfterSplit(String seq) {
@@ -83,12 +84,26 @@ public class MaxDepthAfterSplit {
     }
 
     public static void main(String[] args) {
+        System.out.println("start");
         System.out.println(Arrays.toString(maxDepthAfterSplit("()(())()")));
         char a = 'c';
         System.out.println('c');
         System.out.println(a - '0');
     }
 
+    /**
+     * 题面中的 depth 其实就是栈的最大深度。
+     * “你需要从中选出任意一组有效括号字符串 A 和 B，使 max(depth(A), depth(B)) 的可能取值最小”。
+     * 这句话其实相当于让 A 字符串和 B 字符串的 depth 尽可能的接近。
+     * 为什么呢？因为 seq 对应的栈上，每个左括号都对应一个深度，
+     * 而这个左括号，要么是 A 的，要么是 B 的。
+     * 所以，栈上的左括号只要按奇偶分配给A和B就可以啦！时间复杂度很明显是 O(n) 的，空间复杂度也是 O(n)（如果算返回的变量的话）。
+     *
+     * 作者：sweetiee
+     * 链接：https://leetcode-cn.com/problems/maximum-nesting-depth-of-two-valid-parentheses-strings/solution/ti-mian-shuo-ming-ti-mu-jiang-jie-shuo-hao-fa-wan-/
+     * 来源：力扣（LeetCode）
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     */
     public class Solution {
         public int[] maxDepthAfterSplit(String seq) {
             int[] ans = new int[seq.length()];

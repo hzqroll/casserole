@@ -60,6 +60,28 @@ public class MaxSubArray {
         return count;
     }
 
+    public int maxSubArray2(int[] nums) {
+        int res = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            nums[i] += Math.max(nums[i - 1], 0);
+            res = Math.max(res, nums[i]);
+        }
+        return res;
+    }
+
+    public int maxSubArray3(int[] nums) {
+        int temp = 0;
+        int max = nums[0];
+        for (int i = 0; i < nums.length; i++) {
+            temp += nums[i];
+            if (temp > max) {
+                max = temp;
+            }
+            if (temp < 0) temp = 0;
+        }
+        return max;
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4};
         System.out.println(maxSubArray(nums));
