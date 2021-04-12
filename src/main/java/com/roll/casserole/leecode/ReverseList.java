@@ -1,5 +1,7 @@
 package com.roll.casserole.leecode;
 
+import com.roll.casserole.leecode.ReverseList.ListNode;
+
 /**
  * <p>@author roll
  * <p>created on 2020/9/1 10:21 下午
@@ -58,16 +60,40 @@ public class ReverseList {
     }
 
     public static ListNode reverseList3(ListNode head) {
+        // 前一个节点
         ListNode pre = null;
+        // 当前节点
         ListNode current = head;
+        // 只要当前节点还存在，就继续处理
         while (current != null) {
-            ListNode next1 = current.next;
+            //获取当前节点的下一个节点
+            ListNode next = current.next;
+            // 当前节点的下一个节点指向前一个节点（反转）
             current.next = pre;
+            // pre和current移动一位
             pre = current;
-            current = next1;
+            current = next;
         }
+        // 返回当前节点
         return pre;
     }
+
+    public static ListNode reverseListWithRecursion1(ListNode head) {
+        // 1 结束条件
+        if (head == null || head.next == null) {
+            // 返回尾节点
+            return head;
+        }
+        // 2 本级需要做的事情
+        ListNode next = reverseListWithRecursion1(head.next);
+        // 2.1 下个节点的next指向本级节点
+        head.next.next = head;
+        // 2.2 移除本级节点的next
+        head.next = null;
+        // 3 返回数据，需要返回本级节点，对于上层来说也就是下一个节点
+        return next;
+    }
+
 
     public static int rev(int a) {
         if (a < 0) {
@@ -146,7 +172,7 @@ public class ReverseList {
         listNode2.next = listNode3;
         ListNode listNode4 = new ListNode(4);
         listNode3.next = listNode4;
-        reverseList3(listNode1);
+        System.out.println(reverseList3(listNode1));
     }
 
     public static void d() {
@@ -157,7 +183,7 @@ public class ReverseList {
         listNode2.next = listNode3;
         ListNode listNode4 = new ListNode(4);
         listNode3.next = listNode4;
-        ListNode result = reverseListWithRecursion(listNode1);
+        ListNode result = reverseListWithRecursion1(listNode1);
         System.out.println(result);
     }
 
