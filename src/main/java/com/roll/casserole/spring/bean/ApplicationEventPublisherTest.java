@@ -1,5 +1,7 @@
 package com.roll.casserole.spring.bean;
 
+import org.checkerframework.checker.units.qual.A;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
@@ -7,6 +9,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ResolvableType;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
@@ -16,6 +19,9 @@ import java.util.Arrays;
  */
 @Configuration
 public class ApplicationEventPublisherTest implements ApplicationEventPublisherAware, ApplicationListener<SomeEvent> {
+
+    @Autowired
+    private SomeEvent someEvent;
 
     public static void main(String[] args) {
         // 1 XML注册
@@ -52,6 +58,7 @@ public class ApplicationEventPublisherTest implements ApplicationEventPublisherA
     }
 }
 
+@Component
 class SomeEvent extends ApplicationEvent {
     /**
      * Create a new {@code ApplicationEvent}.

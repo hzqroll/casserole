@@ -1,5 +1,9 @@
 package com.roll.casserole.leecode;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,12 +68,4 @@ public class Reverse {
         }
         return result;
     }
-
-    public static void main(String[] args) {
-        System.out.println(Integer.MAX_VALUE);
-        System.out.println(Integer.MIN_VALUE);
-        int a = -2147483648;
-        System.out.println(reverse1(a));
-    }
-
 }
